@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from src.web import error
 
 def create_app(env="development", static_folder="../../static"):
 	app = Flask(__name__, static_folder=static_folder)
@@ -8,8 +9,6 @@ def create_app(env="development", static_folder="../../static"):
 	def home():
 		return render_template("home.html")
 
-	@app.errorhandler(404)
-	def page_not_found(e):
-		return render_template("404.html"), 404
+	app.register_error_handler(404, error.not_found_error)
 
 	return app
