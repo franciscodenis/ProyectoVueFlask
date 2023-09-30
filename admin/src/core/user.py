@@ -14,16 +14,3 @@ class User(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-
-def list_users():
-    users = User.query.all()
-
-    return users
-
-
-def create_user(**kwargs):
-    user = User(**kwargs)
-    db.session.add(user)
-    db.session.commit()
-
-    return user
