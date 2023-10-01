@@ -17,7 +17,7 @@ def login():
 def authenticate():
     params = request.form
 
-    user = auth.find_user_by_email(params["email"])
+    user = auth.check_user(params["email"], params["password"])
 
     if not user:
         flash("Email o clave incorrecta.", "error")

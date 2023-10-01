@@ -6,6 +6,7 @@ from src.core import seeds
 from src.web import error
 from src.web.config import config
 from src.web import routes
+from src.core.bcrypt import bcrypt
 
 session = Session()
 
@@ -16,6 +17,7 @@ def create_app(env="development", static_folder="../../static"):
 
     session.init_app(app)
     database.init_app(app)
+    bcrypt.init_app(app)
 
     routes.register(app)
 
