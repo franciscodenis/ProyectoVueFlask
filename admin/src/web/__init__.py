@@ -1,3 +1,4 @@
+import logging
 from flask import Flask
 from flask import render_template
 from flask_session import Session
@@ -8,6 +9,9 @@ from src.web.config import config
 from src.web import routes
 from src.core.bcrypt import bcrypt
 from src.web.helpers import auth
+
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 session = Session()
 
