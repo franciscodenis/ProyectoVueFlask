@@ -1,7 +1,7 @@
-from src.core import users
+from src.core import auth
 
 def run():
-    admin = users.create_user(
+    admin = auth.create_user(
         email="admin@test.com",
         username="admin",
         password="adminpassword",

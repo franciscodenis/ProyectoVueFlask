@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import render_template
-from src.core.users import list_users
+from src.core.auth import list_users
 
 user_bp = Blueprint("users", __name__, url_prefix="/usuarios")
 
