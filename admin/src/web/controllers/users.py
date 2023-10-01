@@ -1,13 +1,15 @@
 from flask import Blueprint
 from flask import render_template
-from src.core.auth import list_users
+from src.core import auth
+from src.web.helpers.auth import login_required
 
 user_bp = Blueprint("users", __name__, url_prefix="/usuarios")
 
 
 @user_bp.get("/")
+@login_required
 def index():
-    users = list_users()
+    users = auth.list_users()
     return render_template("users/index.html", users=users)
 
 

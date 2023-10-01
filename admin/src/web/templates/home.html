@@ -6,4 +6,10 @@
 {% block content %}
 <h1>Inicio</h1>
 <p>Grupo 32</p>
+{% if is_authenticated(session) %}
+    <a href="{{ url_for('users.index') }}" class="link">Usuarios</a>
+    <a href="{{ url_for('auth.logout') }}" class="link">Cerrar sesión</a>
+{% else %}
+    <a href="{{ url_for('auth.login') }}" class="link">Iniciar sesión</a>
+{% endif %}
 {% endblock %}
