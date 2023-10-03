@@ -5,3 +5,7 @@ admin> flask run
 
 Git logs in graph: 
 git log --pretty=oneline --graph
+
+Acceso a db: 
+Contraseña abc123
+Puerto 5432

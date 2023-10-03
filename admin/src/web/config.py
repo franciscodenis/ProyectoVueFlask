@@ -11,7 +11,14 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     """Development Config"""
-    pass
+    DB_USER = "postgres"
+    DB_PASS = "abc123"
+    DB_HOST = "localhost"
+    DB_NAME = "grupo32"
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SQLALCHEMY_DATABASE_URI = (
+        F"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
+    )
 
 class TestingConfig(Config):
     """Testing Config"""
