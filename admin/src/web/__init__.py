@@ -10,6 +10,7 @@ from src.web import routes
 from src.core.bcrypt import bcrypt
 from src.web.helpers import auth
 
+
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
@@ -35,12 +36,13 @@ def create_app(env="development", static_folder="../../static"):
 
     app.jinja_env.globals.update(is_authenticated=auth.is_authenticated)
 
+    @app.cli.command(name="seedsdb")
+    def seedsdb():
+        seeds.run()
+
     @app.cli.command(name="resetdb")
     def resetdb():
         database.reset_db()
 
-    @app.cli.command(name="seedsdb")
-    def seedsdb():
-        seeds.run()
 
     return app

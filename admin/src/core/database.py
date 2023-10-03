@@ -24,4 +24,4 @@ def reset_db():
     db.drop_all()
     print("Creando base de datos...")
     db.create_all()
-    print("Listo!")
+    print("👍Listo...")
