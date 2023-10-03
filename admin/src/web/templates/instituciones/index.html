@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}Instituciones{% endblock %}
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Instituciones</h1>
+<table>
+    <thead> 
+        <tr>
+            <th>Nombre</th>
+            <th>Información</th>
+            <th>Dirección</th>
+            <th>Localización</th>
+            <th>Sitio Web</th>
+            <th>Palabras Clave</th>
+            <th>Días y Horarios de Atención</th>
+            <th>Contacto</th>
+            <th>Habilitado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for institucion in instituciones%}
+        <!-- Aquí puedes agregar filas con datos de instituciones -->
+        <tr>
+            <td>{{ institucion.nombre}}</td>
+            <td>{{ institucion.informacion}}</td>
+            <td>{{ institucion.direccion}}</td>
+            <td>{{ institucion.localizacion}}</td>
+            <td>{{ institucion.web}}</a></td>
+            <td>{{ institucion.palabras_clave}}</td>
+            <td>{{ institucion.dias_horarios_atencion}}</td>
+            <td>{{ institucion.contacto}}</td>
+            <td>{{ institucion.habilitado}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+   
+</table>
+{% endblock %}
