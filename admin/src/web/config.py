@@ -1,33 +1,43 @@
+from os import environ
+
 class Config(object):
-    """Base Configuration"""
+    """Base configuration."""
 
-    SECRET_KEY="secret"
-    TESTING=False
-    SESSION_TYPE="filesystem"
+    SECRET_KEY = "secret"
+    TESTING = False
+    SESSION_TYPE = "filesystem"
 
-class ProductionConfig(Config):
-    """Production Config"""
-    pass
-
-class DevelopmentConfig(Config):
-    """Development Config"""
-    DB_USER = "postgres"
-    DB_PASS = "abc123"
-    DB_HOST = "localhost"
-    DB_NAME = "grupo32"
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    DB_USER = environ.get("DB_USER")
+    DB_PASS = environ.get("DB_PASS")
+    DB_HOST = environ.get("DB_HOST")
+    DB_NAME = environ.get("DB_NAME")
+    DB_PORT = environ.get("DB_PORT")
+    if DB_PORT is "":
+        DB_PORT = 5432
     SQLALCHEMY_DATABASE_URI = (
-        F"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
+        f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
 
-class TestingConfig(Config):
-    """Testing Config"""
-    TESTING=True
+class ProductionConfig(Config):
+    """Production configuration."""
+
     pass
 
-config = {
-    "production" : ProductionConfig,
-    "development" : DevelopmentConfig,
-    "testing" : TestingConfig
-    }
 
+class DevelopmentConfig(Config):
+    """Development configuration."""
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+
+class TestingConfig(Config):
+    """Testing configuration."""
+
+    TESTING = True
+
+
+config = {
+    "production": ProductionConfig,
+    "development": DevelopmentConfig,
+    "testing": TestingConfig
+}
