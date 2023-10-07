@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Lista de Servicios
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Palabras Clave</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Habilitado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for servicio in servicios %}
+        <tr>
+            <td>{{ servicio.name }}</td>
+            <td>{{ servicio.description }}</td>
+            <td>{{ servicio.keywords }}</td>
+            <td>{{ servicio.service_type.name }}</td>
+            <td>{{ "Sí" if servicio.enabled else "No" }}</td>
+            <td>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
