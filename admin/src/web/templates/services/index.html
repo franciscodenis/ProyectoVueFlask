@@ -13,6 +13,7 @@ Lista de Servicios
             <th scope="col">Palabras Clave</th>
             <th scope="col">Tipo</th>
             <th scope="col">Habilitado</th>
+            <th scope="col">Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@ Lista de Servicios
             <td>{{ servicio.service_type.name }}</td>
             <td>{{ "Sí" if servicio.enabled else "No" }}</td>
             <td>
+                <a href="{{ url_for('servicios.service_update', service_id=servicio.id) }}">Editar</a>
             </td>
         </tr>
         {% endfor %}
