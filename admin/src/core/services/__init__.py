@@ -60,3 +60,16 @@ def create_service(new_data):
     except Exception as e:
         print(f"Error al crear el servicio: {str(e)}")
         return None
+
+def delete_service(service_id):
+    """
+    Permite eliminar un servicio
+    """
+    try:
+        service = Service.query.get(service_id)
+        db.session.delete(service)
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error al eliminar el servicio: {str(e)}")
+        return None
