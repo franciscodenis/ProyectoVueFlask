@@ -72,3 +72,20 @@ def service_create():
             flash('Hubo un error al crear el servicio.', 'flash-mmesage-error')
     
     return render_template('services/create_service.html', form=form)
+
+@services_bp.route('/destroy/<int:service_id>', methods=['GET'])
+def service_delete(service_id):
+    """
+    Permite eliminar un servicio por nombre
+    """
+    servicio_a_eliminar = services.get_service_by_id(service_id)
+    if servicio_a_eliminar:
+        resultado = services.delete_service(service_id)
+        if resultado:
+            flash('El servicio se ha eliminado correctamente.', 'flash-message-success')
+        else:
+            flash('Hubo un error al eliminar el servicio.', 'flash-mmesage-error')
+    else:
+        flash('El servicio no se encontró.', 'flash-mmesage-error')
+    
+    return redirect(url_for('servicios.service_index'))
