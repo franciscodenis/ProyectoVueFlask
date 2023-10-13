@@ -20,7 +20,7 @@ def service_update(service_id):
     Permite actualizar un servicio por nombre
     """
     servicio_actual = services.get_service_by_id(service_id)
-    print(service_id)
+    #print(service_id)
     form = ServiceForm(obj=servicio_actual)
     
     if form.validate_on_submit():
@@ -41,8 +41,34 @@ def service_update(service_id):
             flash('El servicio se ha actualizado correctamente.', 'flash-message-success')
             return redirect(url_for('servicios.service_index'))
         else:
-            flash('Hubo un error al actualizar el servicio.', 'error')
+            flash('Hubo un error al actualizar el servicio.', 'flash-mmesage-error')
     else :
         print(form.errors)
     
     return render_template('services/update_service.html', form=form, servicio=servicio_actual)
+
+@services_bp.route('/create', methods=['GET', 'POST'])
+def service_create():
+    """
+    Permite crear un servicio
+    """
+    form = ServiceForm()
+    if form.validate_on_submit():
+        # Procesa los datos del formulario y crea el servicio en la base de datos
+        new_data = {
+            'name': form.name.data,
+            'description': form.description.data,
+            'keywords': form.keywords.data,
+            'service_type': form.service_type.data,
+            'enabled': form.enabled.data
+        }
+
+        result = services.create_service(new_data)
+        
+        if result:
+            flash('El servicio se ha creado correctamente.', 'flash-message-success')
+            return redirect(url_for('servicios.service_index'))
+        else:
+            flash('Hubo un error al crear el servicio.', 'flash-mmesage-error')
+    
+    return render_template('services/create_service.html', form=form)
