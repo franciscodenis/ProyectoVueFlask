@@ -47,3 +47,16 @@ def update_service(service_id, new_data):
     except Exception as e:
         print(f"Error al actualizar el servicio: {str(e)}")
         return None
+
+def create_service(new_data):
+    """
+    Permite crear un servicio
+    """
+    try:
+        service = Service(**new_data)
+        db.session.add(service)
+        db.session.commit()
+        return service
+    except Exception as e:
+        print(f"Error al crear el servicio: {str(e)}")
+        return None
