@@ -13,7 +13,11 @@ psycopg2-binary = "^2.9.8"
 flask-sqlalchemy = "^3.1.1"
 flask-session = "^0.5.0"
 flask-bcrypt = "^1.0.1"
+<<<<<<< HEAD
 bcrypt = "^4.0.1"
+=======
+flask-wtf = "^1.2.1"
+>>>>>>> 3b3098909b8ffc4f3c49faf0430a39aa61cbae2c
 
 
 [tool.poetry.group.dev.dependencies]

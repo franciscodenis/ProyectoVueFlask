@@ -12,6 +12,15 @@ def run():
         last_name="Admin"
     )
 
+    user2 = auth.create_user(
+        email="user@test.com",
+        username="user",
+        password="1234",
+        active=True,
+        first_name="System",
+        last_name="User"
+    )
+
     servicio = services.create_service(
         name="Consulta de servicios",
         description="Permite consultar los servicios",

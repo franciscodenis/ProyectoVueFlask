@@ -3,9 +3,9 @@ from enum import Enum
 from src.core.database import db
 
 class ServiceType(Enum):
-    ANALISIS = 1
-    CONSULTORIA = 2
-    DESARROLLO = 3
+    ANALISIS = "ANALISIS"
+    CONSULTORIA = "CONSULTORIA"
+    DESARROLLO = "DESARROLLO"
 
 class Service(db.Model):
     __tablename__ = 'services'

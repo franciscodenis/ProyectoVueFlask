@@ -11,12 +11,12 @@ class Config(object):
     DB_PASS = environ.get("DB_PASS")
     DB_HOST = environ.get("DB_HOST")
     DB_NAME = environ.get("DB_NAME")
-    DB_PORT = environ.get("DB_PORT")
-    if DB_PORT is "":
-        DB_PORT = 5432
+    DB_PORT = environ.get("DB_PORT", "5432")
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
+
 
 class ProductionConfig(Config):
     """Production configuration."""
@@ -27,7 +27,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     """Development configuration."""
 
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    pass
 
 
 class TestingConfig(Config):
