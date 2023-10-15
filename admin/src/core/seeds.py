@@ -20,14 +20,14 @@ def run():
         first_name="System",
         last_name="User"
     )
-
+    """
     servicio = services.create_service(
         name="Consulta de servicios",
         description="Permite consultar los servicios",
         keywords="servicios, consultas",
         service_type="ANALISIS",
         enabled=True
-    )
+    )"""
 
     institucion1 = institutions.create_institution(
     name="institucion1",

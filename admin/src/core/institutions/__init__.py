@@ -7,25 +7,62 @@ def list_institutions():
     return institution
 
 
-def create_institution(**kwargs):
-    ##hash = bcrypt.generate_password_hash(kwargs["password"].encode("utf-8"))
-    ##kwargs.update(password=hash.decode("utf-8"))
-    institution = Institution(**kwargs)
-    db.session.add(institution)
-    db.session.commit()
-
-    return institution
-
-"""
-def find_user_by_email(email):
-    return User.query.filter_by(email=email).first()
-
-
-def check_user(email, password):
-    user = find_user_by_email(email)
-
-    if user and bcrypt.check_password_hash(user.password, password.encode("utf-8")):
-        return user
-    else:
+def create_institution(new_data):
+    """
+    Permite crear un servicio
+    """
+    try:
+        institution = Institution(**new_data)
+        db.session.add(institution)
+        db.session.commit()
+        return institution
+    except Exception as e:
+        print(f"Error al crear el servicio: {str(e)}")
         return None
-"""
+
+
+def get_institution_by_id(institution_id):
+    """
+    Permite obtener un servicio por id
+    """
+    return Institution.query.get(institution_id)
+
+def update_institution(institution_id, new_data):
+    """
+    Permite actualizar un servicio
+    """
+    try:
+        institution = Institution.query.get(institution_id)
+        if institution:
+            institution.name = new_data['name']
+            institution.information = new_data['information']
+            institution.address = new_data['address']
+            institution.location = new_data['location']
+            institution.web = new_data['web']
+            institution.keywords = new_data['keywords']
+            institution.opening_hours = new_data['opening_hours']
+            institution.contact = new_data['contact']
+            institution.has_authorization = new_data['has_authorization']
+
+            db.session.add(institution)
+            db.session.commit()
+            return institution
+        else:
+            print("Institucion no encontrada.")
+            return None
+    except Exception as e:
+        print(f"Error al actualizar la institucion: {str(e)}")
+        return None
+
+def delete_institution(institution_id):
+    """
+    Permite eliminar un servicio
+    """
+    try:
+        institution = Institution.query.get(institution_id)
+        db.session.delete(institution)
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Error al eliminar el servicio: {str(e)}")
+        return None

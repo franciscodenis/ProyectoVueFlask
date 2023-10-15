@@ -15,6 +15,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+        ##f"postgresql://postgres:abc123@localhost:5432/grupo32"
+        
     )
 
 

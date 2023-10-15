@@ -38,3 +38,17 @@ git log --pretty=oneline --graph
 Acceso a db:
 Contraseña abc123
 Puerto 5432
+
+## How debut .lock and .toml after merge:
+Remove .lock
+admin> Poetry add "new dependencies"
+admin> Poetry install
+
+### set poetry env var: 
+set DB_USER=postgres
+set DB_PASS=abc123
+set DB_NAME=grupo32
+set DB_PORT=5432
+
+
+
