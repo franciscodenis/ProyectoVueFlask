@@ -41,7 +41,7 @@ def institution_create():
             'has_authorization':form.has_authorization.data
         }
 
-        result = institutions.create_institution(new_data)
+        result = institutions.create_institution(**new_data)
         
         if result:
             flash('La institución se ha creado correctamente.', 'flash-message-success')

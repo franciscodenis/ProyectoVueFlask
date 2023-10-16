@@ -27,7 +27,7 @@ def institution_create():
     """
     new_data = request.get_json()
     print("new data: ------>",new_data)
-    result = institutions.create_institution(new_data)
+    result = institutions.create_institution(**new_data)
     print(result)
     return ({"status": "ok"},201)
 

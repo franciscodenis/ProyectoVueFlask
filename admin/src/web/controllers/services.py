@@ -63,7 +63,7 @@ def service_create():
             'enabled': form.enabled.data
         }
 
-        result = services.create_service(new_data)
+        result = services.create_service(**new_data)
         
         if result:
             flash('El servicio se ha creado correctamente.', 'flash-message-success')
