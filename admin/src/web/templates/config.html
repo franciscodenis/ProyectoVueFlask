@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Configuración{% endblock %}
+
+{% block content %}
+<h1>Configuración</h1>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.items_per_page.label(class="form-label") }}
+        {{ form.items_per_page(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.contact_info.label(class="form-label") }}
+        {{ form.contact_info(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.maintenance_mode.label(class="form-check-label") }}
+        <select name="maintenance_mode" class="form-select">
+            <option value="false" {% if not form.maintenance_mode.data %}selected{% endif %}>Desactivado</option>
+            <option value="true" {% if form.maintenance_mode.data %}selected{% endif %}>Activado</option>
+        </select>
+    </div class="mb-3">
+        {{ form.maintenance_message.label(class="form-label") }}
+        {{ form.maintenance_message(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar Configuración</button>
+</form>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+{% endblock %}
