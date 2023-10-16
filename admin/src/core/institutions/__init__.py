@@ -7,7 +7,7 @@ def list_institutions():
     return institution
 
 
-def create_institution(new_data):
+def create_institution(**new_data):
     """
     Permite crear un servicio
     """
