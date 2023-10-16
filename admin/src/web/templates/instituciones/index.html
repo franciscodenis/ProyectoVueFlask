@@ -5,7 +5,12 @@
 {% endblock %}
 {% block content %}
 <h1>Instituciones</h1>
-<table>
+
+<div class="mb-3" style="margin-top: 20px;">
+    <a href="{{ url_for('institutions.institution_create') }}" class="btn btn-primary">Crear Institucion</a>
+</div>
+
+<table class="table">
     <thead> 
         <tr>
             <th>Nombre</th>
@@ -17,21 +22,30 @@
             <th>Días y Horarios de Atención</th>
             <th>Contacto</th>
             <th>Habilitado</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for institucion in instituciones%}
         <!-- Aquí puedes agregar filas con datos de instituciones -->
         <tr>
-            <td>{{ institucion.nombre}}</td>
-            <td>{{ institucion.informacion}}</td>
-            <td>{{ institucion.direccion}}</td>
-            <td>{{ institucion.localizacion}}</td>
+            <td>{{ institucion.name}}</td>
+            <td>{{ institucion.information}}</td>
+            <td>{{ institucion.address}}</td>
+            <td>{{ institucion.location}}</td>
             <td>{{ institucion.web}}</a></td>
-            <td>{{ institucion.palabras_clave}}</td>
-            <td>{{ institucion.dias_horarios_atencion}}</td>
-            <td>{{ institucion.contacto}}</td>
-            <td>{{ institucion.habilitado}}</td>
+            <td>{{ institucion.keywords}}</td>
+            <td>{{ institucion.opening_hours}}</td>
+            <td>{{ institucion.contact}}</td>
+            <td>{{ institucion.has_authorization}}</td>
+            <td>{{ institucion.id}}</td>
+            <td>
+                <a href="{{ url_for('institutions.institution_update', institution_id=institucion.id) }}">Editar</a>
+            </td>
+            <td>
+                <a href="{{ url_for('institutions.institution_delete', institution_id=institucion.id) }}" class="btn btn-danger">Eliminar</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

@@ -10,3 +10,16 @@ class ServiceForm(FlaskForm):
     enabled = BooleanField('Habilitado', default=True)
     submit = SubmitField('Crear Servicio')
     service_id = HiddenField('service_id')
+
+class InstitutionForm(FlaskForm):
+    name = StringField('Nombre', validators=[DataRequired()])
+    information = StringField('Informacion', validators=[DataRequired()])
+    address = StringField('Dirección', validators=[DataRequired()])
+    location = StringField('Dirección', validators=[DataRequired()])
+    web = StringField('web', validators=[DataRequired()])
+    keywords = StringField('Palabras Clave', validators=[DataRequired()])
+    opening_hours = StringField('Dias y Horarios', validators=[DataRequired()])
+    contact = StringField('Información de contacto', validators=[DataRequired()])
+    has_authorization = BooleanField('Habilitado', default=True)
+    submit = SubmitField('Crear Institucion')
+    institution_id = HiddenField('institution_id')

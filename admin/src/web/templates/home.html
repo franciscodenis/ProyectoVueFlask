@@ -8,7 +8,7 @@
 <p>Grupo 32</p>
 {% if is_authenticated(session) %}
     <a href="{{ url_for('users.index') }}" class="link">Usuarios</a>
-    <a href="{{ url_for('instituciones.index')}}" class="link">Instituciones</a>
+    <a href="{{ url_for('institutions.institution_index')}}" class="link">Instituciones</a>
     <a href="{{ url_for('servicios.service_index')}}" class="link">Servicios</a>
     <a href="{{ url_for('auth.logout') }}" class="link">Cerrar sesión</a>
 {% else %}

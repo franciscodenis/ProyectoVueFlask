@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Crear Institucion{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Crear Institucion</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.information.label(class="form-label") }}
+            {{ form.information(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.address.label(class="form-label") }}
+            {{ form.address(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.location.label(class="form-label") }}
+            {{ form.location(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.web.label(class="form-check-label") }}
+            {{ form.web(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.keywords.label(class="form-check-label") }}
+            {{ form.keywords(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.opening_hours.label(class="form-check-label") }}
+            {{ form.opening_hours(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.contact.label(class="form-check-label") }}
+            {{ form.contact(class="form-control") }}
+        </div>   
+        <div class="mb-3">
+            {{ form.has_authorization.label(class="form-check-label") }}
+            {{ form.has_authorization(class="form-check-input") }}
+        </div>             
+        <button type="submit" class="btn btn-primary">Modificar Institucion</button>
+        
+    </form>
+    <a href="{{ url_for('institutions.institution_index') }}" class="btn btn-secondary mt-2">Volver a la Lista</a>
+</div>
+{% endblock %}
