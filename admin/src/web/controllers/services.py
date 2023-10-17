@@ -38,10 +38,10 @@ def service_update(service_id):
         result = services.update_service(service_id, new_data)
         
         if result:
-            flash('El servicio se ha actualizado correctamente.', 'flash-message-success')
+            flash('El servicio se ha actualizado correctamente.', 'success')
             return redirect(url_for('servicios.service_index'))
         else:
-            flash('Hubo un error al actualizar el servicio.', 'flash-mmesage-error')
+            flash('Hubo un error al actualizar el servicio.', 'danger')
     else :
         print(form.errors)
     
@@ -66,10 +66,10 @@ def service_create():
         result = services.create_service(**new_data)
         
         if result:
-            flash('El servicio se ha creado correctamente.', 'flash-message-success')
+            flash('El servicio se ha creado correctamente.', 'success')
             return redirect(url_for('servicios.service_index'))
         else:
-            flash('Hubo un error al crear el servicio.', 'flash-mmesage-error')
+            flash('Hubo un error al crear el servicio.', 'danger')
     
     return render_template('services/create_service.html', form=form)
 
@@ -82,10 +82,10 @@ def service_delete(service_id):
     if servicio_a_eliminar:
         resultado = services.delete_service(service_id)
         if resultado:
-            flash('El servicio se ha eliminado correctamente.', 'flash-message-success')
+            flash('El servicio se ha eliminado correctamente.', 'success')
         else:
-            flash('Hubo un error al eliminar el servicio.', 'flash-mmesage-error')
+            flash('Hubo un error al eliminar el servicio.', 'danger')
     else:
-        flash('El servicio no se encontró.', 'flash-mmesage-error')
+        flash('El servicio no se encontró.', 'danger')
     
     return redirect(url_for('servicios.service_index'))

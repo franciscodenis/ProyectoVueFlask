@@ -44,10 +44,10 @@ def institution_create():
         result = institutions.create_institution(**new_data)
         
         if result:
-            flash('La institución se ha creado correctamente.', 'flash-message-success')
+            flash('La institución se ha creado correctamente.', 'success')
             return redirect(url_for('institutions.institution_index'))
         else:
-            flash('Hubo un error al crear la institución.', 'flash-mmesage-error')
+            flash('Hubo un error al crear la institución.', 'danger')
     
     return render_template('instituciones/create_institution.html', form=form)
 
@@ -80,10 +80,10 @@ def institution_update(institution_id):
         result = institutions.update_institution(institution_id, new_data)
         
         if result:
-            flash('La institucion se ha actualizado correctamente.', 'flash-message-success')
+            flash('La institucion se ha actualizado correctamente.', 'success')
             return redirect(url_for('institutions.institution_index'))
         else:
-            flash('Hubo un error al actualizar la institucion.', 'flash-mmesage-error')
+            flash('Hubo un error al actualizar la institucion.', 'danger')
     else :
         print(form.errors)
     
@@ -100,10 +100,10 @@ def institution_delete(institution_id):
     if institution_a_eliminar:
         resultado = institutions.delete_institution(institution_id)
         if resultado:
-            flash('El institution se ha eliminado correctamente.', 'flash-message-success')
+            flash('El institution se ha eliminado correctamente.', 'success')
         else:
-            flash('Hubo un error al eliminar el institution.', 'flash-mmesage-error')
+            flash('Hubo un error al eliminar el institution.', 'danger')
     else:
-        flash('El institution no se encontró.', 'flash-mmesage-error')
+        flash('El institution no se encontró.', 'danger')
     
     return redirect(url_for('institutions.institution_index'))
