@@ -3,6 +3,8 @@ from src.web.controllers.auth import auth_bp
 from src.web.controllers.institutions import instituciones_bp
 from src.web.controllers.services import services_bp
 from src.web.api.institutions import api_instituciones_bp
+from src.web.api.authentication import api_authentication_bp
+
 
 def register(app):
     app.register_blueprint(user_bp)
@@ -10,3 +12,4 @@ def register(app):
     app.register_blueprint(instituciones_bp)
     app.register_blueprint(services_bp)
     app.register_blueprint(api_instituciones_bp)
+    app.register_blueprint(api_authentication_bp)
