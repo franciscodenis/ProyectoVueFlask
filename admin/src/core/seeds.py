@@ -4,6 +4,30 @@ from src.core import institutions
 from src.core import configuration
 
 def run():
+    # Institutions
+    institucion1 = institutions.create_institution(
+        name="institucion1",
+        information="informacion institución 1",
+        address="dirección institución 1",
+        location="localización institución 1",
+        web="www.webinstitucion1.com",
+        keywords='["uno","1","primero"]',
+        opening_hours="Lun a Vier de 7 a 19",
+        contact="institución1@hotmail.com",
+        has_authorization=True,
+    )
+    institucion2 = institutions.create_institution(
+        name="institucion2",
+        information="informacion institución 2",
+        address="dirección institución 2",
+        location="localización institución 2",
+        web="www.webinstitucion1.com",
+        keywords='["dos","2","segundo"]',
+        opening_hours="Lun a Vier de 7 a 19",
+        contact="institución2@hotmail.com",
+        has_authorization=False,
+    )
+
     # Permissions
     all_permissions = {
         "user_index": auth.create_permission(
@@ -177,7 +201,8 @@ def run():
     auth.set_role_permissions(operator_role, operator_role_permissinos)
 
     # User has roles
-    auth.set_user_roles(super_admin, [super_admin_role])
+    auth.set_user_roles(super_admin, institucion1, [super_admin_role])
+    auth.set_user_roles(super_admin, institucion2, [super_admin_role])
 
     servicio = services.create_service(
         name="Consulta de servicios",
@@ -187,27 +212,5 @@ def run():
         enabled=True
     )
 
-    institucion1 = institutions.create_institution(
-        name="institucion1",
-        information="informacion institución 1",
-        address="dirección institución 1",
-        location="localización institución 1",
-        web="www.webinstitucion1.com",
-        keywords='["uno","1","primero"]',
-        opening_hours="Lun a Vier de 7 a 19",
-        contact="institución1@hotmail.com",
-        has_authorization=True,
-    )
-    institucion2 = institutions.create_institution(
-        name="institucion2",
-        information="informacion institución 2",
-        address="dirección institución 2",
-        location="localización institución 2",
-        web="www.webinstitucion1.com",
-        keywords='["dos","2","segundo"]',
-        opening_hours="Lun a Vier de 7 a 19",
-        contact="institución2@hotmail.com",
-        has_authorization=False,
-    )
 
     config = configuration.get_or_create_config()

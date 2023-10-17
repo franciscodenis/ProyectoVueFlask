@@ -8,7 +8,8 @@ role_has_permissions = db.Table("role_has_permissions",
 
 user_has_roles = db.Table("user_has_roles",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
-    db.Column("role_id", db.Integer, db.ForeignKey("roles.id"), primary_key=True)
+    db.Column("institution_id", db.Integer, db.ForeignKey("institutions.id"), primary_key=True),
+    db.Column("role_id", db.Integer, db.ForeignKey("roles.id"), primary_key=True),
 )
 
 class User(db.Model):
@@ -38,6 +39,4 @@ class Role(db.Model):
     name = db.Column(db.String(255), unique=True)
     permissions = db.relationship('Permission', secondary=role_has_permissions, lazy='subquery',
                                   backref=db.backref('roles', lazy=True))
-
-
 
