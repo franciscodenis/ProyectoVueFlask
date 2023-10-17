@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, BooleanField, HiddenField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, SelectField, BooleanField, HiddenField, IntegerField
+from wtforms.validators import DataRequired, NumberRange
 
 class ServiceForm(FlaskForm):
     name = StringField('Nombre', validators=[DataRequired()])
@@ -23,3 +23,14 @@ class InstitutionForm(FlaskForm):
     has_authorization = BooleanField('Habilitado', default=True)
     submit = SubmitField('Crear Institucion')
     institution_id = HiddenField('institution_id')
+
+class ConfigForm(FlaskForm):
+    items_per_page = IntegerField(
+        'Elementos por página',
+        validators=[DataRequired(),
+        NumberRange(min=2, max=20, message='El valor debe estar entre 2 y 20')]
+    )
+    contact_info = StringField('Información de Contacto')
+    maintenance_mode = BooleanField('Modo de Mantenimiento', default=False)
+    maintenance_message = StringField('Mensaje de Mantenimiento')
+    submit = SubmitField('Guardar Configuración')
