@@ -20,7 +20,7 @@ def authenticate():
     user = auth.check_user(params["email"], params["password"])
 
     if not user:
-        flash("Email o clave incorrecta.", "error")
+        flash("Email o clave incorrecta.", "danger")
         return redirect(url_for("auth.login"))
 
     session["user"] = user.email

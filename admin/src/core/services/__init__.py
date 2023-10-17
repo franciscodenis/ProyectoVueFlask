@@ -7,18 +7,6 @@ def list_services():
     """
     return Service.query.all()
 
-def create_service(**kwargs):
-    """
-    Permite crear un servicio
-    """
-    try:
-        service = Service(**kwargs)
-        db.session.add(service)
-        db.session.commit()
-        return service
-    except Exception as e:
-        print(f"Error al crear el servicio: {str(e)}")
-        return None
 
 def get_service_by_id(service_id):
     """
@@ -48,7 +36,7 @@ def update_service(service_id, new_data):
         print(f"Error al actualizar el servicio: {str(e)}")
         return None
 
-def create_service(new_data):
+def create_service(**new_data):
     """
     Permite crear un servicio
     """
