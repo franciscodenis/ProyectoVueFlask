@@ -1,3 +1,4 @@
+from os import environ
 from src.core.database import db
 from src.core.auth.user import User
 from src.core.auth.user import Permission
@@ -6,6 +7,8 @@ from src.core.auth.user import role_has_permissions
 from src.core.auth.user import user_has_roles
 from src.core.institutions.institution import Institution
 from src.core.bcrypt import bcrypt
+from src.core.email import mail
+from flask_mail import Message
 
 def list_users():
     """
@@ -15,6 +18,38 @@ def list_users():
 
     return users
 
+def create_user_stub(email, first_name, last_name):
+    """
+    Crea un stub de usuario inactivo y envía email de activación
+    """
+    user = find_user_by_email(email)
+
+    if user:
+        return None
+
+    user = User(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            active=False
+        )
+    db.session.add(user)
+    db.session.commit()
+
+    key = bcrypt.generate_password_hash(email.encode("utf-8"))
+    decoded_key = key.decode("utf-8")
+
+    base_url = environ.get("APP_BASE_URL", "https://admin-grupo32.proyecto2023.linti.unlp.edu.ar")
+    link = f"{base_url}/auth/validate?email={email}&key={decoded_key}"
+
+    msg = Message(
+        subject="Activar usuario CIDEPINT",
+        recipients=[email],
+        body=f"La dirección {email} ha sido utilizada recientemente para registrar un usuario en CIDEPINT Admin. Para activarlo usa el siguiente link en tu navegador: {link}"
+        )
+    mail.send(msg)
+
+    return user
 
 def create_user(**kwargs):
     """
@@ -50,6 +85,34 @@ def check_user(email, password):
         return user
     else:
         return None
+
+def validate_email(email, key):
+    """
+    Valida email contra la key de activación
+    """
+    if bcrypt.check_password_hash(key, email.encode("utf-8")):
+        user = find_user_by_email(email)
+        if not user.active and not user.password:
+            return True
+
+    return False
+
+def activate_user(email, username, password):
+    """
+    Activa un usuario y configura username y password
+    """
+    hash = bcrypt.generate_password_hash(password.encode("utf-8"))
+    user = find_user_by_email(email)
+    if not user.active and not user.password:
+        user.active = True
+        user.username = username
+        user.password = hash.decode("utf-8")
+        db.session.add(user)
+        db.session.commit()
+
+        return user
+
+    return None
 
 
 def list_permissions():

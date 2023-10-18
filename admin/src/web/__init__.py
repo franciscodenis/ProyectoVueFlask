@@ -3,6 +3,7 @@ from flask import Flask
 from flask import render_template
 from flask_session import Session
 from src.core import database
+from src.core import email
 from src.core import seeds
 from src.web import error
 from src.web.config import config
@@ -24,6 +25,7 @@ def create_app(env="development", static_folder="../../static"):
     session.init_app(app)
     database.init_app(app)
     bcrypt.init_app(app)
+    email.init_app(app)
 
     routes.register(app)
 

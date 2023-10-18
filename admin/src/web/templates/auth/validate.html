@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Activar usuario
+{% endblock %}
+
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Últimos pasos para activar tu usuario</h1>
+<form action="{{ url_for('auth.activate') }}" method="POST">
+    <div class="mb-3">
+        <label for="username" class="form-label">Nombre de usuario (sólo se muestra)</label>
+        <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Nombre de usuario" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Contraseña" required>
+    </div>
+    <input type="hidden" name="email" readonly="true" value="{{ email }}">
+    <input type="hidden" name="key" readonly="true" value="{{ key }}">
+    <button type="submit" class="btn btn-primary" value="Activar">Activar usuario</button>
+</form>
+{% endblock %}
