@@ -19,6 +19,19 @@ def create_institution(**new_data):
     except Exception as e:
         print(f"Error al crear el servicio: {str(e)}")
         return None
+    
+def create_institution(new_data):
+    """
+    Permite crear un servicio
+    """
+    try:
+        institution = Institution(**new_data)
+        db.session.add(institution)
+        db.session.commit()
+        return institution
+    except Exception as e:
+        print(f"Error al crear el servicio: {str(e)}")
+        return None
 
 
 def get_institution_by_id(institution_id):
