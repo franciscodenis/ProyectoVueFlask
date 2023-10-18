@@ -88,15 +88,31 @@ def check_user(email, password):
 
 def validate_email(email, key):
     """
-    Valida email contra la key de activación y activa usuario
+    Valida email contra la key de activación
     """
     if bcrypt.check_password_hash(key, email.encode("utf-8")):
         user = find_user_by_email(email)
+        if not user.active and not user.password:
+            return True
+
+    return False
+
+def activate_user(email, username, password):
+    """
+    Activa un usuario y configura username y password
+    """
+    hash = bcrypt.generate_password_hash(password.encode("utf-8"))
+    user = find_user_by_email(email)
+    if not user.active and not user.password:
         user.active = True
+        user.username = username
+        user.password = hash.decode("utf-8")
         db.session.add(user)
         db.session.commit()
-        return True
-    return False
+
+        return user
+
+    return None
 
 
 def list_permissions():

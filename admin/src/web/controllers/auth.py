@@ -46,10 +46,29 @@ def validate():
 
     if email and key:
         if auth.validate_email(email, key):
-            flash("Email validado correctamente, ya puedes iniciar sesión", "success")
-            return redirect(url_for("auth.login"))
+            return render_template("auth/validate.html", email=email, key=key)
 
     flash("Hubo un error al validar el usuario", "danger")
+    return redirect(url_for("auth.login"))
+
+@auth_bp.post("/activate")
+def activate():
+    params = request.form
+
+    username = params.get("username")
+    password = params.get("password")
+    email = params.get("email")
+    key = params.get("key")
+
+    if email and key and email and password:
+        if auth.validate_email(email, key):
+            user = auth.activate_user(email, username, password)
+
+            if user:
+                flash("Email validado correctamente, ya puedes iniciar sesión", "success")
+                return redirect(url_for("auth.login"))
+
+    flash("Hubo un error al activar el usuario, vuelva a intentar más tarde", "danger")
     return redirect(url_for("auth.login"))
 
 @auth_bp.get("/register")
