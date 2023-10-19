@@ -10,14 +10,13 @@ from src.core.institutions.institution import Institution
 from src.core.bcrypt import bcrypt
 from src.core.email import mail
 from flask_mail import Message
+from src.core.configuration import get_items_per_page
 
-def list_users():
+def list_users(page):
     """
     Lista todos los usuarios
     """
-    users = User.query.all()
-
-    return users
+    return User.query.paginate(page=page, per_page=get_items_per_page(), error_out=False)
 
 def create_user_stub(email, first_name, last_name):
     """

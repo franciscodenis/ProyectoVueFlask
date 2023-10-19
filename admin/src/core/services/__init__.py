@@ -1,11 +1,12 @@
 from src.core.services.service import Service
 from src.core.database import db
+from src.core.configuration import get_items_per_page
 
-def list_services():
+def list_services(page):
     """
     Permite listar los servicios
     """
-    return Service.query.all()
+    return Service.query.paginate(page=page, per_page=get_items_per_page(), error_out=False)
 
 def create_service(**kwargs):
     """

@@ -10,14 +10,16 @@ services_bp = Blueprint("servicios", __name__, url_prefix="/services")
 @services_bp.get("/")
 @login_required
 def service_index():
-    """
-    Permite accede al index(listado) del módulo de servicios
-    """
     if not has_permission(["service_index"]):
         return abort(401)
+    
+    page = request.args.get('page', 1, type=int)
 
-    servicios = services.list_services()
-    return render_template("services/index.html",servicios=servicios)
+    pagination = services.list_services(page)
+
+    servicios = pagination.items
+
+    return render_template("services/index.html", servicios=servicios, pagination=pagination)
 
 @services_bp.route('/update/<int:service_id>', methods=['GET', 'POST'])
 @login_required
