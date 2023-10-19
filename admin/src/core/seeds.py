@@ -204,6 +204,9 @@ def run():
     auth.set_user_roles(super_admin, institucion1, [super_admin_role])
     auth.set_user_roles(super_admin, institucion2, [super_admin_role])
 
+    # User has system roles
+    auth.set_user_system_roles(super_admin, [super_admin_role])
+
     servicio = services.create_service(
         name="Consulta de servicios",
         description="Permite consultar los servicios",

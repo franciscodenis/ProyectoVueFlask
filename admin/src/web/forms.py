@@ -24,6 +24,10 @@ class InstitutionForm(FlaskForm):
     submit = SubmitField('Crear Institucion')
     institution_id = HiddenField('institution_id')
 
+class InstitutionSwitchForm(FlaskForm):
+    institution = SelectField('Institución', validators=[DataRequired()])
+    submit = SubmitField('Cambiar institución')
+
 class UserForm(FlaskForm):
     first_name = StringField('Nombre', validators=[DataRequired()])
     last_name = StringField('Apellido', validators=[DataRequired()])

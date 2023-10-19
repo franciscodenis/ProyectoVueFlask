@@ -5,6 +5,7 @@ from src.core.auth.user import Permission
 from src.core.auth.user import Role
 from src.core.auth.user import role_has_permissions
 from src.core.auth.user import user_has_roles
+from src.core.auth.user import user_has_system_roles
 from src.core.institutions.institution import Institution
 from src.core.bcrypt import bcrypt
 from src.core.email import mail
@@ -150,6 +151,22 @@ def list_permissions_by_user_id(user_id):
             )
         ).scalars().all()
 
+def list_system_permissions_by_user_id(user_id):
+    """
+    Obtiene una lista de nombres de permisos de sistema para un usuario por id
+    """
+    return db.session.execute(
+        db.select(Permission.name.distinct())
+        .join_from(Permission, Permission.roles)
+        .filter(
+            Role.id.in_(
+                db.select(Role.id)
+                .join(User, Role.sys_users)
+                .filter(User.id == user_id)
+                )
+            )
+        ).scalars().all()
+
 def list_permissions_by_user_id_and_institution_id(user_id, institution_id):
     """
     Obtiene una lista de nombres de permisos por ids de usuario e institución
@@ -207,6 +224,17 @@ def set_user_roles(user, institution, roles):
     for role in roles:
         print (f"User [{user.id} : {user.username}] - Institution [{institution.id} : {institution.name}] - Role [{role.id} : {role.name}]")
         statement = user_has_roles.insert().values(user_id=user_id, institution_id=institution_id, role_id=role.id)
+        db.session.execute(statement)
+    db.session.commit()
+
+def set_user_system_roles(user, roles):
+    """
+    Asigna roles de sistema a un usuario
+    """
+    user_id = user.id
+    for role in roles:
+        print (f"User [{user.id} : {user.username}] - SYSTEM - Role [{role.id} : {role.name}]")
+        statement = user_has_system_roles.insert().values(user_id=user_id, role_id=role.id)
         db.session.execute(statement)
     db.session.commit()
 

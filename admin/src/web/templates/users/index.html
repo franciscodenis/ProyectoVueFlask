@@ -36,7 +36,12 @@ Lista de Usuarios
                 <a href="{{ url_for('users.update', user_id=user.id)}}">Editar</a>
             </td>
             <td>
-                <a href="{{ url_for('users.delete', user_id=user.id) }}" class="btn btn-danger">Eliminar</a>
+                {% if user.system_roles %}
+                    <a href="#" class="btn btn-secondary" disabled aria-disabled="true">Usuario de sistema</a>
+                {% endif %}
+                {% if not user.system_roles %}
+                    <a href="{{ url_for('users.delete', user_id=user.id) }}" class="btn btn-danger">Eliminar</a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
