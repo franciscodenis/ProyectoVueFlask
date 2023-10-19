@@ -31,6 +31,7 @@ flask seedsdb
 admin> poetry shell
 Spawning shell within C:\Users\fran_\AppData\Local\pypoetry\Cache\virtualenvs\web-EV70jHJ_-py3.8
 admin> flask run
+admin> flask --debug run
 
 Git logs in graph:
 git log --pretty=oneline --graph
