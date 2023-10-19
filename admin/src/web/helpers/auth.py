@@ -18,11 +18,27 @@ def login_required(f):
 def has_permission(required_permissions_list):
     has_permission = True
     user = auth.find_user_by_email(session.get("user"))
+    institution = session.get("institution")
+    if not institution:
+        return False
 
-    user_permissions_list = auth.list_permissions_by_user_id(user.id)
+    user_permissions_list = auth.list_permissions_by_user_id_and_institution_id(user.id, institution)
 
     for permission in required_permissions_list:
         if not (permission in user_permissions_list):
+            has_permission = False
+            break
+
+    return has_permission
+
+def has_system_permission(required_system_permissions_list):
+    has_permission = True
+    user = auth.find_user_by_email(session.get("user"))
+
+    user_system_permissions_list = auth.list_system_permissions_by_user_id(user.id)
+
+    for permission in required_system_permissions_list:
+        if not (permission in user_system_permissions_list):
             has_permission = False
             break
 
