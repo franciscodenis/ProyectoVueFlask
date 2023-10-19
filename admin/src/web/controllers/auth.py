@@ -24,6 +24,15 @@ def authenticate():
         return redirect(url_for("auth.login"))
 
     session["user"] = user.email
+    session["username"] = user.username
+
+    # Al iniciar sesión, toma la primera institución en caso de tener alguna asignada.
+    # Este valor debe actualizarse al elegir otra institución en el dropdown del nav.
+    if user.institutions:
+        session["institution"] = user.institutions[0].id
+        session["institution_name"] = user.institutions[0].name
+        session["institution_count"] = len(user.institutions)
+
     flash("La sesión se inició correctamente", "success")
     return redirect(url_for("home"))
 
