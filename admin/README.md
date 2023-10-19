@@ -31,6 +31,7 @@ flask seedsdb
 admin> poetry shell
 Spawning shell within C:\Users\fran_\AppData\Local\pypoetry\Cache\virtualenvs\web-EV70jHJ_-py3.8
 admin> flask run
+admin> flask --debug run
 
 Git logs in graph:
 git log --pretty=oneline --graph
@@ -38,3 +39,21 @@ git log --pretty=oneline --graph
 Acceso a db:
 Contraseña abc123
 Puerto 5432
+
+## How debut .lock and .toml after merge:
+Remove .lock
+admin> Poetry add "new dependencies"
+admin> Poetry install
+
+### set poetry env var: 
+set DB_USER=postgres
+set DB_PASS=abc123
+set DB_NAME=grupo32
+set DB_PORT=5432
+
+### Servidor de emails:
+Para que funcione el server de correos (exclusivamente Gmail), deben también configurarse las siguientes variables de entorno (completar con valores luego del signo "=" ).
+
+set APP_EMAIL_ADDRESS=
+set APP_EMAIL_PASSWORD=
+set APP_BASE_URL=

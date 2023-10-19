@@ -5,6 +5,9 @@ Lista de Servicios
 {% endblock %}
 
 {% block content %}
+<div class="mb-3" style="margin-top: 20px;">
+    <a href="{{ url_for('servicios.service_create') }}" class="btn btn-primary">Crear Servicio</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -13,6 +16,8 @@ Lista de Servicios
             <th scope="col">Palabras Clave</th>
             <th scope="col">Tipo</th>
             <th scope="col">Habilitado</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +29,10 @@ Lista de Servicios
             <td>{{ servicio.service_type.name }}</td>
             <td>{{ "Sí" if servicio.enabled else "No" }}</td>
             <td>
+                <a href="{{ url_for('servicios.service_update', service_id=servicio.id) }}">Editar</a>
+            </td>
+            <td>
+                <a href="{{ url_for('servicios.service_delete', service_id=servicio.id) }}" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
         {% endfor %}

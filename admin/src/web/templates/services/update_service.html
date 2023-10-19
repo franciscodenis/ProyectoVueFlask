@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Editar Servicio
+{% endblock %}
+
+{% block content %}
+<h1>Editar Servicio</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        {{ form.name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Descripción</label>
+        {{ form.description(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label for="keywords" class="form-label">Palabras Clave</label>
+        {{ form.keywords(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label for="service_type" class="form-label">Tipo de Servicio</label>
+        {{ form.service_type(class="form-select") }}
+    </div>
+    <div class="mb-3">
+        <label for="enabled" class="form-label">Habilitado</label>
+        {{ form.enabled(class="form-check-input") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+<a href="{{ url_for('servicios.service_index') }}" class="btn btn-secondary">Cancelar</a>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+{% endblock %}

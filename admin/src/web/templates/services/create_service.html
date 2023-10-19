@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}Crear Servicio{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Crear Servicio</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.keywords.label(class="form-label") }}
+            {{ form.keywords(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.service_type.label(class="form-label") }}
+            {{ form.service_type(class="form-select") }}
+        </div>
+        <div class="mb-3">
+            {{ form.enabled.label(class="form-check-label") }}
+            {{ form.enabled(class="form-check-input") }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Crear Servicio</button>
+    </form>
+    <a href="{{ url_for('servicios.service_index') }}" class="btn btn-secondary mt-2">Volver a la Lista</a>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+{% endblock %}

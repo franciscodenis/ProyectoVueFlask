@@ -1,27 +1,50 @@
 {% extends "layout.html" %}
-{% block title %}Usuarios{% endblock %}
+
+{% block title %}
+Lista de Usuarios
+{% endblock %}
+
 {% block navbar %}
     {{ super() }}
 {% endblock %}
+
 {% block content %}
-<h1>Usuarios</h1>
-<table>
+<!-- <div class="mb-3" style="margin-top: 20px;">
+    <a href="{{ url_for('servicios.service_create') }}" class="btn btn-primary">Crear Servicio</a>
+</div> -->
+<table class="table">
     <thead>
         <tr>
-            <th>Apellido</th>
-            <th>Nombre</th>
-            <th>Email</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Nombre de Usuario</th>
+            <th scope="col">Activo</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
         {% for user in users %}
         <tr>
-            <td>{{ user.first_name }}</td>
             <td>{{ user.last_name }}</td>
+            <td>{{ user.first_name }}</td>
             <td>{{ user.email }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ "Sí" if user.active else "No" }}</td>
+            <td>
+                <a href="{{ url_for('users.update', user_id=user.id)}}">Editar</a>
+            </td>
+            <td>
+                {% if user.system_roles %}
+                    <a href="#" class="btn btn-secondary" disabled aria-disabled="true">Usuario de sistema</a>
+                {% endif %}
+                {% if not user.system_roles %}
+                    <a href="{{ url_for('users.delete', user_id=user.id) }}" class="btn btn-danger">Eliminar</a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
-
     </tbody>
 </table>
 {% endblock %}

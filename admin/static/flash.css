@@ -1,0 +1,20 @@
+/* Estilo para el mensaje flash */
+.flash-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Estilo para un mensaje de éxito */
+.flash-message-success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Estilo para un mensaje de error */
+.flash-message-error {
+    background-color: #F44336;
+    color: white;
+}
