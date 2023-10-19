@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Registrarse
+{% endblock %}
+
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Registrarse</h1>
+<form action="{{ url_for('auth.create') }}" method="POST">
+    <div class="mb-3">
+        <label for="first_name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="Nombre" required>
+    </div>
+    <div class="mb-3">
+        <label for="last_name" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="inputLastName" name="last_name" placeholder="Apellido" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Dirección de email" required>
+    </div>
+    <button type="submit" class="btn btn-primary" value="Registrarse">Registrarse</button>
+</form>
+{% endblock %}

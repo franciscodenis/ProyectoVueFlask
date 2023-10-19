@@ -51,5 +51,9 @@ set DB_PASS=abc123
 set DB_NAME=grupo32
 set DB_PORT=5432
 
+### Servidor de emails:
+Para que funcione el server de correos (exclusivamente Gmail), deben también configurarse las siguientes variables de entorno (completar con valores luego del signo "=" ).
 
-
+set APP_EMAIL_ADDRESS=
+set APP_EMAIL_PASSWORD=
+set APP_BASE_URL=

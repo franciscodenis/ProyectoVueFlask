@@ -24,9 +24,9 @@ def config_update():
         result = configuration.update_config(new_config)  
 
         if result:
-            flash('La configuración se ha actualizado correctamente.', 'flash-message-success')
+            flash('La configuración se ha actualizado correctamente.', 'success')
             return render_template('home.html')
         else:
-            flash('Hubo un error al actualizar la configuración.', 'flash-message-error')
+            flash('Hubo un error al actualizar la configuración.', 'danger')
 
     return render_template('config.html', form=form)

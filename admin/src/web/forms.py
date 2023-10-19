@@ -24,6 +24,14 @@ class InstitutionForm(FlaskForm):
     submit = SubmitField('Crear Institucion')
     institution_id = HiddenField('institution_id')
 
+class UserForm(FlaskForm):
+    first_name = StringField('Nombre', validators=[DataRequired()])
+    last_name = StringField('Apellido', validators=[DataRequired()])
+    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    active = BooleanField('active', default=True)
+    email = StringField('email')
+    user_id = HiddenField('user_id')
+
 class ConfigForm(FlaskForm):
     items_per_page = IntegerField(
         'Elementos por página',
