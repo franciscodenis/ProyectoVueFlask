@@ -25,7 +25,7 @@ Lista de Usuarios
         </tr>
     </thead>
     <tbody>
-        {% for user in users %}
+        {% for user in pagination.items %}
         <tr>
             <td>{{ user.last_name }}</td>
             <td>{{ user.first_name }}</td>
@@ -47,4 +47,14 @@ Lista de Usuarios
         {% endfor %}
     </tbody>
 </table>
+<!-- Agregar enlaces de navegación "Anterior" y "Siguiente" -->
+<div class="pagination">
+    {% if pagination.has_prev %}
+        <a href="{{ url_for('users.index', page=pagination.prev_num) }}">Anterior</a>
+    {% endif %}
+
+    {% if pagination.has_next %}
+        <a href="{{ url_for('users.index', page=pagination.next_num) }}">Siguiente</a>
+    {% endif %}
+</div>
 {% endblock %}
