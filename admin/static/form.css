@@ -1,6 +1,6 @@
 /* Estilos generales del formulario */
 form {
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -58,7 +58,7 @@ h1 {
 }
 
 .btn-secondary {
-    max-width: 400px;
+    max-width: 200px;
     padding: 10px;
     border: none;
     background-color: #007bff;
