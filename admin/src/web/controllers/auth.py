@@ -32,6 +32,11 @@ def authenticate():
         session["institution"] = user.institutions[0].id
         session["institution_name"] = user.institutions[0].name
         session["institution_count"] = len(user.institutions)
+    
+    if "Super Administrador" in [role.name for role in user.roles]:
+        session["superadmin"] = True
+    else:
+        session["superadmin"] = False
 
     flash("La sesión se inició correctamente", "success")
     return redirect(url_for("home"))
