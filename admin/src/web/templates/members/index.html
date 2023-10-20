@@ -37,7 +37,7 @@ Lista de Miembros
                 {{ user.roles | map(attribute='name') | list | join(', ') }}
             </td>
             <td>
-                <a href="#">Editar roles</a>
+                <a href="{{ url_for('members.member_update', user_id=user.id )}}">Editar roles</a>
             </td>
             <td>
                 {% if user.email != session.get("user") %}

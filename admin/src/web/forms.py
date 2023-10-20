@@ -36,6 +36,14 @@ class UserForm(FlaskForm):
     email = StringField('email')
     user_id = HiddenField('user_id')
 
+class MemberForm(FlaskForm):
+    first_name = StringField('Nombre', validators=[DataRequired()])
+    last_name = StringField('Apellido', validators=[DataRequired()])
+    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    email = StringField('email')
+    role = SelectField('Rol', validators=[DataRequired()])
+    user_id = HiddenField('user_id')
+
 class ConfigForm(FlaskForm):
     items_per_page = IntegerField(
         'Elementos por página',
