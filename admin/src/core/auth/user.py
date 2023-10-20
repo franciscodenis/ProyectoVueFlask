@@ -12,6 +12,11 @@ user_has_roles = db.Table("user_has_roles",
     db.Column("role_id", db.Integer, db.ForeignKey("roles.id"), primary_key=True),
 )
 
+user_has_system_roles = db.Table("user_has_system_roles",
+    db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+    db.Column("role_id", db.Integer, db.ForeignKey("roles.id"), primary_key=True)
+)
+
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -25,8 +30,12 @@ class User(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    roles = db.relationship('Role', secondary=user_has_roles, lazy=True,
-                            backref=db.backref('users', lazy=True))
+    roles = db.relationship("Role", secondary=user_has_roles, lazy='dynamic',
+                            backref=db.backref("users", lazy=True))
+    system_roles = db.relationship("Role", secondary=user_has_system_roles, lazy=True,
+                            backref=db.backref("sys_users", lazy=True))
+    institutions = db.relationship("Institution", secondary=user_has_roles, viewonly=True,
+                            backref=db.backref("users", lazy=True))
 
 class Permission(db.Model):
     __tablename__ = "permissions"

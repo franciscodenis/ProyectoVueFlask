@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Modificar miembro
+{% endblock %}
+
+{% block content %}
+<h1>Modificar rol de miembro</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        <label for="first_name" class="form-label">Nombre</label>
+        {{ form.first_name(class="form-control", readonly="readonly") }}
+    </div>
+    <div class="mb-3">
+        <label for="last_name" class="form-label">Apellido</label>
+        {{ form.last_name(class="form-control", readonly="readonly") }}
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        {{ form.email(class="form-control", readonly="readonly") }}
+    </div>
+    <div class="mb-3">
+        <label for="username" class="form-label">Nombre de usuario</label>
+        {{ form.username(class="form-control", readonly="readonly") }}
+    </div>
+    <div class="mb-3">
+        <label for="role" class="form-label">Rol</label>
+        {{ form.role(class="form-select") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Cambiar</button>
+</form>
+<a href="{{ url_for('members.member_index') }}" class="btn btn-secondary">Cancelar</a>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+{% endblock %}

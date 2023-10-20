@@ -36,9 +36,8 @@ def institution_create():
     """
     Permite accede al index(listado) del módulo de instituciones
     """
-    data = request.get_json()
-
-
-    result = institutions.create_institution(data)
+    new_data = request.get_json()
+    print("new data: ------>",new_data)
+    result = institutions.create_institution(**new_data)
     print(result)
     return ({"status": "ok"},201)

@@ -21,7 +21,7 @@ Lista de Servicios
         </tr>
     </thead>
     <tbody>
-        {% for servicio in servicios %}
+        {% for servicio in pagination.items %}
         <tr>
             <td>{{ servicio.name }}</td>
             <td>{{ servicio.description }}</td>
@@ -38,4 +38,15 @@ Lista de Servicios
         {% endfor %}
     </tbody>
 </table>
+
+<!-- Agregar enlaces de navegación "Anterior" y "Siguiente" -->
+<div class="pagination">
+    {% if pagination.has_prev %}
+        <a href="{{ url_for('servicios.service_index', page=pagination.prev_num) }}">Anterior</a>
+    {% endif %}
+
+    {% if pagination.has_next %}
+        <a href="{{ url_for('servicios.service_index', page=pagination.next_num) }}">Siguiente</a>
+    {% endif %}
+</div>
 {% endblock %}

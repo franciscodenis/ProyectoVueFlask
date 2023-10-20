@@ -1,12 +1,25 @@
 from src.core.services.service import Service
 from src.core.database import db
+from src.core.configuration import get_items_per_page
 
-def list_services():
+def list_services(page):
     """
     Permite listar los servicios
     """
-    return Service.query.all()
+    return Service.query.paginate(page=page, per_page=get_items_per_page(), error_out=False)
 
+def create_service(**kwargs):
+    """
+    Permite crear un servicio
+    """
+    try:
+        service = Service(**kwargs)
+        db.session.add(service)
+        db.session.commit()
+        return service
+    except Exception as e:
+        print(f"Error al crear el servicio: {str(e)}")
+        return None
 
 def get_service_by_id(service_id):
     """
@@ -34,19 +47,6 @@ def update_service(service_id, new_data):
             return None
     except Exception as e:
         print(f"Error al actualizar el servicio: {str(e)}")
-        return None
-
-def create_service(**new_data):
-    """
-    Permite crear un servicio
-    """
-    try:
-        service = Service(**new_data)
-        db.session.add(service)
-        db.session.commit()
-        return service
-    except Exception as e:
-        print(f"Error al crear el servicio: {str(e)}")
         return None
 
 def delete_service(service_id):

@@ -24,12 +24,29 @@ class InstitutionForm(FlaskForm):
     submit = SubmitField('Crear Institucion')
     institution_id = HiddenField('institution_id')
 
+class InstitutionSwitchForm(FlaskForm):
+    institution = SelectField('Institución', validators=[DataRequired()])
+    submit = SubmitField('Cambiar institución')
+
 class UserForm(FlaskForm):
     first_name = StringField('Nombre', validators=[DataRequired()])
     last_name = StringField('Apellido', validators=[DataRequired()])
     username = StringField('Nombre de usuario', validators=[DataRequired()])
     active = BooleanField('active', default=True)
-    email = StringField('email')
+    email = StringField('email', validators=[DataRequired()])
+    user_id = HiddenField('user_id')
+
+class MemberForm(FlaskForm):
+    first_name = StringField('Nombre', validators=[DataRequired()])
+    last_name = StringField('Apellido', validators=[DataRequired()])
+    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    email = StringField('email', validators=[DataRequired()])
+    role = SelectField('Rol', validators=[DataRequired()])
+    user_id = HiddenField('user_id')
+
+class MemberAddForm(FlaskForm):
+    email = SelectField('email', validate_choice=[DataRequired()])
+    role = SelectField('Rol', validators=[DataRequired()])
     user_id = HiddenField('user_id')
 
 class ConfigForm(FlaskForm):

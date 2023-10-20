@@ -19,18 +19,23 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+                {% if session["user"] %}
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         {% block navbar %}
+                        {% set institution_count = session.get("institution_count", 0) %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              CIDEPINT
+                            <a class="nav-link {{ 'dropdown-toggle' if institution_count  > 1 }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              {{ session["institution_name"] }}
                             </a>
+                            {% if institution_count > 1 %}
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">CIDEPINT</a></li>
+                              <!-- <li><a class="dropdown-item" href="#">CIDEPINT</a></li>
                               <li><a class="dropdown-item" href="#">INSTITUCIÓN 2</a></li>
-                              <li><a class="dropdown-item" href="#">INSTITUCIÓN 3</a></li>
+                              <li><a class="dropdown-item" href="#">INSTITUCIÓN 3</a></li> -->
+                              <li><a class="dropdown-item" href="{{ url_for('institutions.institution_switch') }}">Cambiar institución</a></li>
                             </ul>
+                            {% endif %}
                         </li>
                         <li>
                             <a href="{{ url_for('config.config_update') }}" class="nav-link">
@@ -47,13 +52,15 @@
                                 <i class="bi bi-person-fill"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Perfil</a></li>
+                                <li><div class="dropdown-item">{{ session["username"] }}</div></li>
+                                <!-- <li><a class="dropdown-item" href="#">Perfil</a></li> -->
                                 <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
                               </ul>
                         </li>
                         {% endblock %}
                     </ul>
                 </div>
+                {% endif %}
             </div>
         </nav>
     </header>
