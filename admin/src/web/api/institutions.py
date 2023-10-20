@@ -2,6 +2,7 @@ from flask import render_template, flash, redirect, url_for
 from src.core import institutions
 from flask import Blueprint
 from src.web.schemas.institutions import institutions_schema
+from src.web.schemas.institutions import create_institutions_schema,create_institution_schema
 from flask import request
 
 
@@ -20,7 +21,7 @@ def institution_index():
     page = int(request.args.get('page'))
     per_page = int(request.args.get('per_page'))
     print(data)
-    print("dataaaa--. eleeeen")
+    print("dataaaa------------------\n")
     
     from_institution = (len(data)//per_page)*(page-1)
     to_institution = (len(data)//per_page)*(page)
@@ -37,7 +38,9 @@ def institution_create():
     Permite accede al index(listado) del módulo de instituciones
     """
     new_data = request.get_json()
-    print("new data: ------>",new_data)
+    new_institution = create_institution_schema.load(new_data)
+    print("new data: --->/n", new_data,"/n")
+    print("new institution: --->/n", new_institution,"/n")
     result = institutions.create_institution(**new_data)
-    print(result)
+
     return ({"status": "ok"},201)
