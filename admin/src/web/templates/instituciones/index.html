@@ -44,7 +44,7 @@
                 <a href="{{ url_for('institutions.institution_update', institution_id=institucion.id) }}">Editar</a>
             </td>
             <td>
-                <a href="{{ url_for('institutions.institution_delete', institution_id=institucion.id) }}" class="btn btn-danger">Eliminar</a>
+                <a href="{{ url_for('institutions.institution_delete', institution_id=institucion.id) }}" onclick="return confirm('¿Seguro que quieres eliminar esta institución? {{ institucion.name }}');" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
         {% endfor %}
