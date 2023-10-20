@@ -1,6 +1,7 @@
 from marshmallow import Schema, fields
 from src.core import institutions
 
+
 class InstitutionSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str()
@@ -15,6 +16,6 @@ class InstitutionSchema(Schema):
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
 
-institution_schema = InstitutionSchema()
-institutions_schema =InstitutionSchema(many=True)
 
+institution_schema = InstitutionSchema()
+institutions_schema = InstitutionSchema(many=True)

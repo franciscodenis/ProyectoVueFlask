@@ -1,6 +1,7 @@
 from datetime import datetime
 from src.core.database import db
 
+
 class Institution(db.Model):
     __tablename__ = "institutions"
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -13,7 +14,7 @@ class Institution(db.Model):
     opening_hours = db.Column(db.String(100))
     contact = db.Column(db.String(100))
     has_authorization = db.Column(db.Boolean)
-    services = db.relationship('Service', back_populates='institution')
+    services = db.relationship("Service", back_populates="institution")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow

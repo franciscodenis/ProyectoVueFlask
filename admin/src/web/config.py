@@ -1,5 +1,6 @@
 from os import environ
 
+
 class Config(object):
     """Base configuration."""
 
@@ -16,7 +17,6 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
         ##f"postgresql://postgres:abc123@localhost:5432/grupo32"
-        
     )
 
 
@@ -41,5 +41,5 @@ class TestingConfig(Config):
 config = {
     "production": ProductionConfig,
     "development": DevelopmentConfig,
-    "testing": TestingConfig
+    "testing": TestingConfig,
 }
