@@ -32,7 +32,7 @@ Lista de Servicios
                 <a href="{{ url_for('servicios.service_update', service_id=servicio.id) }}">Editar</a>
             </td>
             <td>
-                <a href="{{ url_for('servicios.service_delete', service_id=servicio.id) }}" class="btn btn-danger">Eliminar</a>
+                <a href="{{ url_for('servicios.service_delete', service_id=servicio.id) }}" onclick="return confirm('¿Seguro que quieres eliminar este servicio? {{ servicio.name }}');" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
         {% endfor %}
