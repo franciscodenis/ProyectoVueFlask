@@ -17,12 +17,8 @@ def institution_index():
     """
     list_inst = institutions.list_institutions()
     data = institutions_schema.dump(list_inst)
-    print()
     page = int(request.args.get('page'))
     per_page = int(request.args.get('per_page'))
-    print(data)
-    print("dataaaa------------------\n")
-    
     from_institution = (len(data)//per_page)*(page-1)
     to_institution = (len(data)//per_page)*(page)
     body_response = {}
@@ -35,12 +31,10 @@ def institution_index():
 @api_instituciones_bp.route('/create', methods=['GET', 'POST'])
 def institution_create():
     """
-    Permite accede al index(listado) del módulo de instituciones
+    Toma la información del request, valida con el schema "create_institution_schema", y guarda en la base de datos. 
     """
     new_data = request.get_json()
     new_institution = create_institution_schema.load(new_data)
-    print("new data: --->/n", new_data,"/n")
-    print("new institution: --->/n", new_institution,"/n")
     result = institutions.create_institution(**new_data)
 
     return ({"status": "ok"},201)
