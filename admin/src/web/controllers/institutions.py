@@ -5,6 +5,7 @@ from flask import Blueprint
 from src.web.forms import InstitutionForm, InstitutionSwitchForm
 from src.web.helpers.auth import login_required, has_system_permission
 from src.web.helpers.maintenance import maintenance_mode_guard
+from flask import request
 
 
 instituciones_bp = Blueprint(
@@ -22,8 +23,12 @@ def institution_index():
     if not has_system_permission(["institution_index"]):
         return abort(401)
 
-    instituciones = institutions.list_institutions()
-    return render_template("instituciones/index.html", instituciones=instituciones)
+    page = request.args.get("page", 1, type=int)
+    pagination = institutions.list_institutions(page)
+    instituciones = pagination.items
+
+
+    return render_template("instituciones/index.html",instituciones=instituciones, pagination=pagination)
 
 
 def institution_show():
