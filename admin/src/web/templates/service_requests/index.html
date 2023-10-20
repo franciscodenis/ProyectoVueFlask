@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Lista de Solicitudes de Servicio
+{% endblock %}
+
+{% block content %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Título</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Servicio</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Notas</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for solicitud in pagination.items %}
+        <tr>
+            <td><a href="{{ url_for('service_requests.service_request_show', request_id=solicitud.id) }}">{{ solicitud.title }}</a></td>
+            <td>{{ solicitud.description }}</td>
+            <td>{{ solicitud.service.name }}</td>
+            <td>{{ solicitud.status.value }}</td>
+            <td>{{ solicitud.notes }}</td>
+            <td>{{ solicitud.user.username }}</td>
+            <td>
+                <a href="{{ url_for('service_requests.service_request_update', request_id=solicitud.id) }}">Editar</a>
+            </td>
+            <td>
+                <a href="{{ url_for('service_requests.service_request_delete', request_id=solicitud.id) }}" class="btn btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Agregar enlaces de navegación "Anterior" y "Siguiente" -->
+<div class="pagination">
+    {% if pagination.has_prev %}
+        <a href="{{ url_for('service_requests.service_requests_index', 
+                           page=pagination.prev_num, 
+                           service_type=service_type, 
+                           start_date=start_date, 
+                           end_date=end_date, 
+                           state=state, 
+                           user_id=user_id) }}">Anterior</a>
+    {% endif %}
+
+    {% if pagination.has_next %}
+        <a href="{{ url_for('service_requests.service_requests_index', 
+                           page=pagination.next_num, 
+                           service_type=service_type, 
+                           start_date=start_date, 
+                           end_date=end_date, 
+                           state=state, 
+                           user_id=user_id) }}">Siguiente</a>
+    {% endif %}
+</div>
+{% endblock %}
