@@ -10,6 +10,9 @@ services_bp = Blueprint("servicios", __name__, url_prefix="/services")
 @services_bp.get("/")
 @login_required
 def service_index():
+    """
+    Devuelve una lista con todos los servicios
+    """
     if not has_permission(["service_index"]):
         return abort(401)
     

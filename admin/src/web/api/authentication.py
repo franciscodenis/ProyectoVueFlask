@@ -6,6 +6,9 @@ api_authentication_bp = Blueprint("authentication_api", __name__, url_prefix="/a
 
 @api_authentication_bp.route("/",methods=['GET', 'POST'])
 def authentication():
+    """
+    devuelve un tokken dado un mail y una contraseña
+    """
     incoming_data = request.get_json()
     user_authentication = user_schema.load(incoming_data)
     return {

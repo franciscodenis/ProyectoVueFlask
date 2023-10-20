@@ -20,6 +20,9 @@ def config_db(app):
         db.session.close()
 
 def reset_db():
+    """
+    Resetea la base de datos.
+    """
     print("Eliminando base de datos...")
     db.drop_all()
     print("Creando base de datos...")
