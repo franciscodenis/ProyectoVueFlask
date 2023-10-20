@@ -9,6 +9,7 @@ from src.web.helpers.auth import login_required
 from src.web.helpers.auth import has_permission
 from src.web.helpers.auth import has_system_permission
 from src.web.forms import UserForm
+from flask import request
 
 user_bp = Blueprint("users", __name__, url_prefix="/usuarios")
 
@@ -20,8 +21,11 @@ def index():
     if not has_system_permission(["user_index"]):
         return abort(401)
 
-    users = auth.list_users()
-    return render_template("users/index.html", users=users)
+    page = request.args.get('page', 1, type=int)
+    pagination = auth.list_users(page)
+    users = pagination.items
+
+    return render_template("users/index.html", users=users, pagination=pagination)
 
 
 def show():

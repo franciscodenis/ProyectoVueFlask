@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Lista de Usuarios
+Lista de Miembros
 {% endblock %}
 
 {% block navbar %}
@@ -9,9 +9,9 @@ Lista de Usuarios
 {% endblock %}
 
 {% block content %}
-<!-- <div class="mb-3" style="margin-top: 20px;">
-    <a href="{{ url_for('servicios.service_create') }}" class="btn btn-primary">Crear Servicio</a>
-</div> -->
+<div class="mb-3" style="margin-top: 20px;">
+    <a href="{{ url_for('members.member_create') }}" class="btn btn-primary">Agregar Miembro</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -20,6 +20,7 @@ Lista de Usuarios
             <th scope="col">Email</th>
             <th scope="col">Nombre de Usuario</th>
             <th scope="col">Activo</th>
+            <th scope="col">Roles</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -33,14 +34,17 @@ Lista de Usuarios
             <td>{{ user.username }}</td>
             <td>{{ "Sí" if user.active else "No" }}</td>
             <td>
-                <a href="{{ url_for('users.update', user_id=user.id)}}">Editar</a>
+                {{ user.roles | map(attribute='name') | list | join(', ') }}
             </td>
             <td>
-                {% if user.system_roles %}
-                    <a href="#" class="btn btn-secondary" disabled aria-disabled="true">Usuario de sistema</a>
+                <a href="{{ url_for('members.member_update', user_id=user.id )}}">Editar roles</a>
+            </td>
+            <td>
+                {% if user.email != session.get("user") %}
+                    <a href="{{ url_for('members.member_remove', user_id=user.id )}}" onclick="return confirm('¿Seguro que quieres remover este miembro de la institución? {{ user.email }}');" class="btn btn-danger">Remover miembro</a>
                 {% endif %}
-                {% if not user.system_roles %}
-                    <a href="{{ url_for('users.delete', user_id=user.id) }}" class="btn btn-danger">Eliminar</a>
+                {% if user.email == session.get("user") %}
+                    Vos
                 {% endif %}
             </td>
         </tr>
@@ -50,11 +54,11 @@ Lista de Usuarios
 <!-- Agregar enlaces de navegación "Anterior" y "Siguiente" -->
 <div class="pagination">
     {% if pagination.has_prev %}
-        <a href="{{ url_for('users.index', page=pagination.prev_num) }}">Anterior</a>
+        <a href="{{ url_for('members.index', page=pagination.prev_num) }}">Anterior</a>
     {% endif %}
 
     {% if pagination.has_next %}
-        <a href="{{ url_for('users.index', page=pagination.next_num) }}">Siguiente</a>
+        <a href="{{ url_for('members.index', page=pagination.next_num) }}">Siguiente</a>
     {% endif %}
 </div>
 {% endblock %}
