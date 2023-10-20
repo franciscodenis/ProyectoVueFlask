@@ -13,6 +13,7 @@ class Institution(db.Model):
     opening_hours = db.Column(db.String(100))
     contact = db.Column(db.String(100))
     has_authorization = db.Column(db.Boolean)
+    services = db.relationship('Service', back_populates='institution')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow

@@ -36,6 +36,7 @@ class User(db.Model):
                             backref=db.backref("sys_users", lazy=True))
     institutions = db.relationship("Institution", secondary=user_has_roles, viewonly=True,
                             backref=db.backref("users", lazy=True))
+    service_requests = db.relationship("ServiceRequest", back_populates="user", lazy=True)
 
 class Permission(db.Model):
     __tablename__ = "permissions"
