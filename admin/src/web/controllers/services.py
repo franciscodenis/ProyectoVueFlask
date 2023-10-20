@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, abort
+from flask import render_template, flash, redirect, url_for, abort, session
 from src.core import services
 from flask import Blueprint
 from flask import request
@@ -19,9 +19,10 @@ def service_index():
     if not has_permission(["service_index"]):
         return abort(401)
 
+    institution_id = session["institution"]
     page = request.args.get("page", 1, type=int)
 
-    pagination = services.list_services(page)
+    pagination = services.list_services_by_institution(institution_id, page)
 
     servicios = pagination.items
 
@@ -85,6 +86,8 @@ def service_update(service_id):
     else:
         print(form.errors)
 
+    form.service_type.data = servicio_actual.service_type.name
+
     return render_template(
         "services/update_service.html", form=form, servicio=servicio_actual
     )
@@ -102,6 +105,8 @@ def service_create():
 
     form = ServiceForm()
     if form.validate_on_submit():
+        institution_id = session["institution"]
+
         # Procesa los datos del formulario y crea el servicio en la base de datos
         new_data = {
             "name": form.name.data,
@@ -109,6 +114,7 @@ def service_create():
             "keywords": form.keywords.data,
             "service_type": form.service_type.data,
             "enabled": form.enabled.data,
+            "institution_id": institution_id
         }
 
         result = services.create_service(**new_data)

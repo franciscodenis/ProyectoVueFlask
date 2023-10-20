@@ -11,6 +11,13 @@ def list_services(page):
         page=page, per_page=get_items_per_page(), error_out=False
     )
 
+def list_services_by_institution(institution_id, page):
+    """
+    Permite listar los servicios
+    """
+    return Service.query.filter(Service.institution_id == institution_id).paginate(
+        page=page, per_page=get_items_per_page(), error_out=False
+    )
 
 def create_service(**kwargs):
     """
