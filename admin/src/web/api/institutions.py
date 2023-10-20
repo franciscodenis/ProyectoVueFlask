@@ -15,16 +15,21 @@ def institution_index():
     """
     Permite accede al index(listado) del módulo de instituciones
     """
-    list_inst = institutions.list_institutions()
+
+    page = 1
+    per_page = 10
+    if request.args.get('page'):
+        page = int(request.args.get('page'))
+    if request.args.get('per_page'):
+        per_page = int(request.args.get('per_page'))
+
+    list_inst = institutions.list_institutions(page,per_page)
     data = institutions_schema.dump(list_inst)
-    page = int(request.args.get('page'))
-    per_page = int(request.args.get('per_page'))
-    from_institution = (len(data)//per_page)*(page-1)
-    to_institution = (len(data)//per_page)*(page)
     body_response = {}
-    body_response["data"] = data[from_institution:to_institution]
+    body_response["data"] = data
     body_response["page"] = page
     body_response["per_page"] = per_page
+    body_response["total"] = institutions.institution_count()
     return body_response,200
 
 
@@ -38,3 +43,4 @@ def institution_create():
     result = institutions.create_institution(**new_data)
 
     return ({"status": "ok"},201)
+

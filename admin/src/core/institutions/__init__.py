@@ -1,10 +1,17 @@
 from src.core.database import db
 from src.core.institutions.institution import Institution
 from src.core.bcrypt import bcrypt
+from src.core.configuration import Configuration
 
-def list_institutions():
-    institution = Institution.query.all()
-    return institution
+def list_institutions(page=1,per_page=0):
+    if per_page==0: 
+        per_page=Configuration.items_per_page()
+    
+    return Institution.query.paginate(page=page, per_page=per_page, error_out=False)
+
+
+def institution_count():
+    return Institution.query.count()
 
 
 def create_institution(**new_data):
