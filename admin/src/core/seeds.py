@@ -201,11 +201,11 @@ def run():
     auth.set_role_permissions(operator_role, operator_role_permissinos)
 
     # User has roles
-    auth.set_user_roles(super_admin, institucion1, [super_admin_role])
-    auth.set_user_roles(super_admin, institucion2, [super_admin_role])
+    auth.set_user_roles(super_admin, institucion1.id, [super_admin_role.id])
+    auth.set_user_roles(super_admin, institucion2.id, [super_admin_role.id])
 
     # User has system roles
-    auth.set_user_system_roles(super_admin, [super_admin_role])
+    auth.set_user_system_roles(super_admin, [super_admin_role.id])
 
     servicio = services.create_service(
         name="Consulta de servicios",

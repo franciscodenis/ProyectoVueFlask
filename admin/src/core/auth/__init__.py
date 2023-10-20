@@ -214,26 +214,46 @@ def set_role_permissions(role, permissions):
         db.session.execute(statement)
     db.session.commit()
 
-def set_user_roles(user, institution, roles):
+def set_user_roles(user, institution_id, role_ids):
     """
     Asigna roles a un usuario en una institución
     """
     user_id = user.id
-    institution_id = institution.id
-    for role in roles:
-        print (f"User [{user.id} : {user.username}] - Institution [{institution.id} : {institution.name}] - Role [{role.id} : {role.name}]")
-        statement = user_has_roles.insert().values(user_id=user_id, institution_id=institution_id, role_id=role.id)
+    for role_id in role_ids:
+        statement = user_has_roles.insert().values(user_id=user_id, institution_id=institution_id, role_id=role_id)
         db.session.execute(statement)
     db.session.commit()
 
-def set_user_system_roles(user, roles):
+def replace_user_roles(user, institution_id, role_ids):
+    """
+    Sobreescribe roles de un usuario en una institución (elimina y recrea)
+    """
+    user_id = user.id
+
+    # Elimina todos los roles del usuario para la institución
+    remove_member(user_id, institution_id)
+
+    # roles_actuales = list_institution_user_roles(user.id, institution_id)
+    # if roles_actuales:
+    #     if not roles_actuales.filter(user_has_roles.c.role_id == role_id).exists():
+
+    # statement = user_has_roles.update().where(user_has_roles.c.user_id == user_id).where(user_has_roles.c.institution_id == institution_id).values(role_id=role_id)
+
+    # asigna roles nuevamente
+    set_user_roles(user, institution_id, role_ids)
+
+    # for role in roles:
+    #     statement = user_has_roles.insert().values(user_id=user_id, institution_id=institution_id, role_id=role.id)
+    #     db.session.execute(statement)
+    # db.session.commit()
+
+def set_user_system_roles(user, role_ids):
     """
     Asigna roles de sistema a un usuario
     """
     user_id = user.id
-    for role in roles:
-        print (f"User [{user.id} : {user.username}] - SYSTEM - Role [{role.id} : {role.name}]")
-        statement = user_has_system_roles.insert().values(user_id=user_id, role_id=role.id)
+    for role_id in role_ids:
+        statement = user_has_system_roles.insert().values(user_id=user_id, role_id=role_id)
         db.session.execute(statement)
     db.session.commit()
 
@@ -269,3 +289,48 @@ def delete_user(user_id):
     except Exception as e:
         print(f"Error al eliminar el usuario: {str(e)}")
         return None
+
+
+def list_institution_users(institution_id, page):
+    """
+    Lista todos los usuarios de una institución
+    """
+    users = User.query.join(
+            user_has_roles, User.id == user_has_roles.c.user_id
+        ).filter(
+            user_has_roles.c.institution_id == institution_id
+        ).paginate(page=page, per_page=get_items_per_page(), error_out=False)
+
+    # fuerza a filtrar user.roles a sólo los de la institución
+    for user in users:
+        user.roles = user.roles.filter(user_has_roles.c.institution_id == institution_id).all()
+
+    return users
+
+def list_institution_user_roles(user_id, institution_id):
+    """
+    Lista todos los roles de un usuario para una institución
+    """
+    return Role.query.join(
+            user_has_roles, Role.id == user_has_roles.c.role_id
+        ).filter(
+            user_has_roles.c.institution_id == institution_id
+        ).filter(
+            user_has_roles.c.user_id == user_id
+        )
+
+def remove_member(user_id, institution_id):
+    """
+    Remueve a un miembro de una institución
+    """
+    statement = user_has_roles.delete().where(user_has_roles.c.user_id == user_id).where(user_has_roles.c.institution_id == institution_id)
+    db.session.execute(statement)
+    db.session.commit()
+
+def list_users_not_in_institution(institution_id):
+    """
+    Lista los usuarios que no están en la institución
+    """
+    subq = db.select(user_has_roles.c.role_id).where(user_has_roles.c.institution_id == institution_id).where(user_has_roles.c.user_id == User.id).exists()
+
+    return User.query.where(~subq)
