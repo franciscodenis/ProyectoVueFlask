@@ -326,3 +326,11 @@ def remove_member(user_id, institution_id):
     statement = user_has_roles.delete().where(user_has_roles.c.user_id == user_id).where(user_has_roles.c.institution_id == institution_id)
     db.session.execute(statement)
     db.session.commit()
+
+def list_users_not_in_institution(institution_id):
+    """
+    Lista los usuarios que no están en la institución
+    """
+    subq = db.select(user_has_roles.c.role_id).where(user_has_roles.c.institution_id == institution_id).where(user_has_roles.c.user_id == User.id).exists()
+
+    return User.query.where(~subq)

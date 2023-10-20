@@ -1,7 +1,7 @@
 from flask import abort, Blueprint, flash, redirect, render_template, request, session, url_for
 from src.web.helpers.auth import has_permission, login_required
 from src.core import auth
-from src.web.forms import MemberForm
+from src.web.forms import MemberForm, MemberAddForm
 
 members_bp = Blueprint("members", __name__, url_prefix="/members")
 
@@ -14,7 +14,6 @@ def member_index():
     page = request.args.get('page', 1, type=int)
     institution_id = session["institution"]
 
-    # pagination = list_institution_members(page, institution_id)
     pagination = auth.list_institution_users(institution_id, page)
 
     members = pagination.items
@@ -23,14 +22,43 @@ def member_index():
 
     return render_template("members/index.html", members=members, pagination=pagination)
 
-@members_bp.get("/")
+@members_bp.route("/add", methods=["GET", "POST"])
 @login_required
 def member_create():
     if not has_permission(["member_create"]):
         return abort(401)
 
-    # TODO: Hacer
-    return redirect("home")
+    institution_id = session["institution"]
+    users = []
+    users_not_in_institution = auth.list_users_not_in_institution(institution_id).all()
+    if len(users_not_in_institution) == 0:
+        flash("No hay usuarios disponibles para agregar como miembros a la institución", "warning")
+    for user in users_not_in_institution:
+        users.append((
+            user.id,
+            user.email
+        ))
+
+    roles = []
+    roles_disponibles = auth.list_roles()
+    for role in roles_disponibles:
+        if role.name != "Super Administrador":
+            roles.append((
+                role.id,
+                role.name
+            ))
+
+    form = MemberAddForm()
+    form.email.choices = users
+    form.role.choices = roles
+
+    if form.validate_on_submit():
+        user = auth.get_user_by_id(form.email.data)
+        auth.set_user_roles(user, institution_id, [form.role.data])
+        flash("Se agregó el miembro a la institución correctamente", "success")
+        return redirect(url_for("members.member_index"))
+
+    return render_template("members/add.html", form=form)
 
 
 @members_bp.route("/update/<int:user_id>", methods=["GET", "POST"])
@@ -60,16 +88,6 @@ def member_update(user_id):
         if not has_permission(["member_update"]):
             flash("No tienes los permisos necesarios para editar el miembro", "danger")
         else:
-            # rol_seleccionado = dict(form.role.choices).get(int(form.role.data))
-            # print(dict(form.role.choices))
-            # print("revisar")
-            # print(rol_seleccionado)
-            # print("revisar")
-            # rol = {
-            #     "id": rol_seleccionado[0],
-            #     "name": rol_seleccionado[1]
-            # }
-
             # Llamar a update de miembro
             auth.replace_user_roles(usuario_actual, institution_id, [form.role.data])
             flash("El miembro ha sido modificado correctamente", "success")
