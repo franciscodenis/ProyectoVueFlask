@@ -2,6 +2,7 @@ from src.core import auth
 from src.core import services
 from src.core import institutions
 from src.core import configuration
+from src.core import service_requests
 
 def run():
     # Institutions
@@ -209,11 +210,19 @@ def run():
 
     servicio = services.create_service(
         name="Consulta de servicios",
+        institution_id=institucion1.id,
         description="Permite consultar los servicios",
         keywords="servicios, consultas",
         service_type="ANALISIS",
         enabled=True
     )
 
+    solicitud_servicio = service_requests.create_service_request(
+        user_id=super_admin.id,
+        service_id=servicio.id,
+        title="Solicitud de servicio",
+        description="Solicitud de servicio",
+        notes="Notas de solicitud de servicio"
+    )
 
     config = configuration.get_or_create_config()

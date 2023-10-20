@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Editar Solicitud de Servicio
+{% endblock %}
+
+{% block content %}
+<h1>Editar Solicitud de Servicio</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        <label for="title" class="form-label">Título</label>
+        {{ form.title(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Descripción</label>
+        {{ form.description(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label for="status" class="form-label">Estado</label>
+        {{ form.status(class="form-select") }}
+    </div>
+    <div class="mb-3">
+        <label for="notes" class="form-label">Notas</label>
+        {{ form.notes(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+<a href="{{ url_for('service_requests.service_requests_index') }}" class="btn btn-secondary">Cancelar</a>
+</div>
+<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+{% endblock %}
