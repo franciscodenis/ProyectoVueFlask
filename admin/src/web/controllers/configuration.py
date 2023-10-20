@@ -8,7 +8,6 @@ configuration_bp = Blueprint('config', __name__, url_prefix="/config")
 
 @configuration_bp.route("/", methods=['GET', 'POST'])
 @login_required
-@superadmin_during_maintenance
 def config_update():
     if not has_system_permission(["config_show"]):
         return abort(401)
