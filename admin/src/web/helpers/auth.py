@@ -6,6 +6,9 @@ from src.core import auth
 def is_authenticated(session):
     return session.get("user") is not None
 
+def is_superadmin():
+    return session.get("superadmin", False)
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

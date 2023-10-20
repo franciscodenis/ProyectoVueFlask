@@ -4,12 +4,17 @@ from flask import Blueprint
 from flask import request
 from src.web.forms import ServiceForm
 from src.web.helpers.auth import login_required, has_permission
+from src.web.helpers.maintenance import maintenance_mode_guard
 
 services_bp = Blueprint("servicios", __name__, url_prefix="/services")
 
 @services_bp.get("/")
 @login_required
+@maintenance_mode_guard
 def service_index():
+    """
+    Permita listar los servicios de forma paginada.
+    """
     if not has_permission(["service_index"]):
         return abort(401)
     
@@ -21,8 +26,26 @@ def service_index():
 
     return render_template("services/index.html", servicios=servicios, pagination=pagination)
 
+@services_bp.get("/<int:service_id>")
+@login_required
+@maintenance_mode_guard
+def service_show(service_id):
+    """
+    Permite acceder a un servicio
+    """
+    if not has_permission(["service_show"]):
+        return abort(401)
+
+    servicio = services.get_service_by_id(service_id)
+    if not servicio:
+        flash('El servicio no se encontró.', 'danger')
+        return redirect(url_for('servicios.service_index'))
+
+    return render_template('services/show.html', servicio=servicio)
+
 @services_bp.route('/update/<int:service_id>', methods=['GET', 'POST'])
 @login_required
+@maintenance_mode_guard
 def service_update(service_id):
     """
     Permite actualizar un servicio por nombre
@@ -31,7 +54,6 @@ def service_update(service_id):
         return abort(401)
 
     servicio_actual = services.get_service_by_id(service_id)
-    #print(service_id)
     form = ServiceForm(obj=servicio_actual)
 
     if form.validate_on_submit():
@@ -62,6 +84,7 @@ def service_update(service_id):
 
 @services_bp.route('/create', methods=['GET', 'POST'])
 @login_required
+@maintenance_mode_guard
 def service_create():
     """
     Permite crear un servicio
@@ -92,6 +115,7 @@ def service_create():
 
 @services_bp.route('/destroy/<int:service_id>', methods=['GET'])
 @login_required
+@maintenance_mode_guard
 def service_delete(service_id):
     """
     Permite eliminar un servicio por nombre

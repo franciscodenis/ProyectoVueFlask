@@ -4,11 +4,13 @@ from flask import Blueprint
 from flask import request
 from src.web.forms import ServiceRequestForm
 from src.web.helpers.auth import login_required, has_permission
+from src.web.helpers.maintenance import maintenance_mode_guard
 
 service_requests_bp = Blueprint("service_requests", __name__, url_prefix="/service_requests")
 
 @service_requests_bp.route("/")
 @login_required
+@maintenance_mode_guard
 def service_requests_index():
     """
     Permita listar las solicitudes de servicio de forma paginada.
@@ -32,6 +34,7 @@ def service_requests_index():
 
 @service_requests_bp.get("/<int:request_id>")
 @login_required
+@maintenance_mode_guard
 def service_request_show(request_id):
     """
     Permite acceder a una solicitud de servicio
@@ -49,6 +52,7 @@ def service_request_show(request_id):
 
 @service_requests_bp.route('/update/<int:request_id>', methods=['GET', 'POST'])
 @login_required
+@maintenance_mode_guard
 def service_request_update(request_id):
     """
     Permite actualizar la información de una solicitud de servicio
@@ -82,6 +86,7 @@ def service_request_update(request_id):
 
 @service_requests_bp.route('/destroy/<int:request_id>', methods=['GET'])
 @login_required
+@maintenance_mode_guard
 def service_request_delete(request_id):
     """
     Permite eliminar una solicitud de servicio

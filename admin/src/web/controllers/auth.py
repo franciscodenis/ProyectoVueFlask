@@ -6,6 +6,7 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from src.core import auth
+from src.web.helpers.maintenance import maintenance_mode_guard, superadmin_during_maintenance
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -32,6 +33,11 @@ def authenticate():
         session["institution"] = user.institutions[0].id
         session["institution_name"] = user.institutions[0].name
         session["institution_count"] = len(user.institutions)
+    
+    if "Super Administrador" in [role.name for role in user.roles]:
+        session["superadmin"] = True
+    else:
+        session["superadmin"] = False
 
     flash("La sesión se inició correctamente", "success")
     return redirect(url_for("home"))
@@ -81,6 +87,7 @@ def activate():
     return redirect(url_for("auth.login"))
 
 @auth_bp.get("/register")
+@maintenance_mode_guard
 def register():
     return render_template("auth/register.html")
 

@@ -47,3 +47,14 @@ def get_items_per_page():
         return config.items_per_page
     else:
         return 10
+
+def is_maintenance_mode_enabled():
+    """
+    Permite saber si el sistema está en modo mantenimiento
+    """
+    config = get_or_create_config()
+    
+    if config:
+        return config.maintenance_mode
+    else:
+        return False

@@ -23,6 +23,7 @@ Lista de Servicios
     <tbody>
         {% for servicio in pagination.items %}
         <tr>
+            <td><a href="{{ url_for('servicios.service_show', service_id=servicio.id) }}">{{ servicio.name }}</a></td>
             <td>{{ servicio.name }}</td>
             <td>{{ servicio.description }}</td>
             <td>{{ servicio.keywords }}</td>

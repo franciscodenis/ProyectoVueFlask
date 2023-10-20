@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Detalles del Servicio
+{% endblock %}
+
+{% block content %}
+    <h1>{{ servicio.name }}</h1>
+    <p><strong>Descripción:</strong> {{ servicio.description }}</p>
+    <p><strong>Tipo de Servicio:</strong> {{ servicio.service_type.value }}</p>
+    <p><strong>Palabras Clave:</strong> {{ servicio.keywords }}</p>
+    <p><strong>Estado:</strong> {% if servicio.enabled %} Habilitado {% else %} Deshabilitado {% endif %}</p>
+    <a href="{{ url_for('servicios.service_update', service_id=servicio.id) }}" class="btn btn-primary">Editar</a>
+    <a href="{{ url_for('servicios.service_index') }}" class="btn btn-secondary">Volver</a>
+{% endblock %}
