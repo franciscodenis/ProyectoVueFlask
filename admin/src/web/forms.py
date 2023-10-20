@@ -59,3 +59,16 @@ class ConfigForm(FlaskForm):
     maintenance_mode = BooleanField('Modo de Mantenimiento', default=False)
     maintenance_message = StringField('Mensaje de Mantenimiento')
     submit = SubmitField('Guardar Configuración')
+
+class ServiceRequestForm(FlaskForm):
+    title = StringField('Título', validators=[DataRequired()])
+    description = StringField('Descripción', validators=[DataRequired()])
+    status = SelectField('Estado', 
+                        choices=[("ACCEPTED", 'Aceptado'),
+                        ("REJECTED", 'Rechazado'),
+                        ("IN_PROCESS", 'En proceso'),
+                        ("FINISHED", 'Terminado'),
+                        ("CANCELED", 'Cancelado')],
+                        validators=[DataRequired()])
+    notes = StringField('Notas')
+    submit = SubmitField('Crear Solicitud')
