@@ -4,12 +4,14 @@ from src.core.auth import find_user_by_email
 from flask import Blueprint
 from src.web.forms import InstitutionForm, InstitutionSwitchForm
 from src.web.helpers.auth import login_required, has_system_permission
+from src.web.helpers.maintenance import maintenance_mode_guard
 
 
 instituciones_bp = Blueprint("institutions", __name__, url_prefix="/consultas_instituciones")
 
 @instituciones_bp.get("/")
 @login_required
+@maintenance_mode_guard
 def institution_index():
     """
     Permite accede al index(listado) del módulo de instituciones
@@ -29,6 +31,7 @@ def institution_new():
 
 @instituciones_bp.route('/create', methods=['GET', 'POST'])
 @login_required
+@maintenance_mode_guard
 def institution_create():
     """
     Permite crear un servicio
@@ -64,6 +67,7 @@ def institution_create():
 
 @instituciones_bp.route('/update/<int:institution_id>', methods=['GET', 'POST'])
 @login_required
+@maintenance_mode_guard
 def institution_update(institution_id):
     """
     Permite actualizar una institucion por nombre
@@ -107,6 +111,7 @@ def institution_update(institution_id):
 
 @instituciones_bp.route('/destroy/<int:institution_id>', methods=['GET'])
 @login_required
+@maintenance_mode_guard
 def institution_delete(institution_id):
     """
     Permite eliminar una institucion por nombre
@@ -128,6 +133,7 @@ def institution_delete(institution_id):
 
 @instituciones_bp.route('/switch', methods=['GET', 'POST'])
 @login_required
+@maintenance_mode_guard
 def institution_switch():
     """
     Permite seleccionar otra institución

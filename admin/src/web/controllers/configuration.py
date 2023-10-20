@@ -2,11 +2,13 @@ from flask import Blueprint, render_template, redirect, url_for, flash, abort
 from src.core import configuration
 from src.web.helpers.auth import login_required, has_system_permission
 from src.web.forms import ConfigForm
+from src.web.helpers.maintenance import superadmin_during_maintenance
 
 configuration_bp = Blueprint('config', __name__, url_prefix="/config")
 
 @configuration_bp.route("/", methods=['GET', 'POST'])
 @login_required
+@superadmin_during_maintenance
 def config_update():
     if not has_system_permission(["config_show"]):
         return abort(401)

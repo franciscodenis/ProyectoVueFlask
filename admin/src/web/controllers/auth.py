@@ -6,10 +6,12 @@ from flask import redirect
 from flask import url_for
 from flask import session
 from src.core import auth
+from src.web.helpers.maintenance import maintenance_mode_guard, superadmin_during_maintenance
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 @auth_bp.get("/")
+@superadmin_during_maintenance
 def login():
     return render_template("auth/login.html")
 
@@ -86,6 +88,7 @@ def activate():
     return redirect(url_for("auth.login"))
 
 @auth_bp.get("/register")
+@maintenance_mode_guard
 def register():
     return render_template("auth/register.html")
 
