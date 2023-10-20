@@ -17,6 +17,9 @@ user_bp = Blueprint("users", __name__, url_prefix="/usuarios")
 @user_bp.get("/")
 @login_required
 def index():
+    """
+    devuelve una lista con servicios
+    """
     # if not has_permission(["user_index"]):
     if not has_system_permission(["user_index"]):
         return abort(401)
