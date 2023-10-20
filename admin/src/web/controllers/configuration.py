@@ -4,9 +4,10 @@ from src.web.helpers.auth import login_required, has_system_permission
 from src.web.forms import ConfigForm
 from src.web.helpers.maintenance import superadmin_during_maintenance
 
-configuration_bp = Blueprint('config', __name__, url_prefix="/config")
+configuration_bp = Blueprint("config", __name__, url_prefix="/config")
 
-@configuration_bp.route("/", methods=['GET', 'POST'])
+
+@configuration_bp.route("/", methods=["GET", "POST"])
 @login_required
 def config_update():
     if not has_system_permission(["config_show"]):
@@ -19,23 +20,26 @@ def config_update():
 
     if form.validate_on_submit():
         if not has_system_permission(["config_update"]):
-            flash('No tienes los permisos necesarios para editar la configuración', 'danger')
+            flash(
+                "No tienes los permisos necesarios para editar la configuración",
+                "danger",
+            )
         else:
             # Procesa los datos del formulario y actualiza la configuración
             new_config = {
-                'items_per_page': form.items_per_page.data,
-                'contact_info': form.contact_info.data,
-                'maintenance_mode': form.maintenance_mode.data,
-                'maintenance_message': form.maintenance_message.data
+                "items_per_page": form.items_per_page.data,
+                "contact_info": form.contact_info.data,
+                "maintenance_mode": form.maintenance_mode.data,
+                "maintenance_message": form.maintenance_message.data,
             }
 
             # Llama a una función para actualizar la configuración, implementa esta función
             result = configuration.update_config(new_config)
 
             if result:
-                flash('La configuración se ha actualizado correctamente.', 'success')
-                return render_template('home.html')
+                flash("La configuración se ha actualizado correctamente.", "success")
+                return render_template("home.html")
             else:
-                flash('Hubo un error al actualizar la configuración.', 'danger')
+                flash("Hubo un error al actualizar la configuración.", "danger")
 
-    return render_template('config.html', form=form)
+    return render_template("config.html", form=form)

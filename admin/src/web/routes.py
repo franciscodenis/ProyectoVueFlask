@@ -9,6 +9,7 @@ from src.web.controllers.configuration import configuration_bp
 from src.web.controllers.members import members_bp
 from src.web.controllers.services_request import service_requests_bp
 
+
 def register(app):
     app.register_blueprint(user_bp)
     app.register_blueprint(auth_bp)

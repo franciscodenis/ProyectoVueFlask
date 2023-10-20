@@ -17,6 +17,7 @@ logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 session = Session()
 
+
 def create_app(env="development", static_folder="../../static"):
     app = Flask(__name__, static_folder=static_folder)
 
@@ -45,6 +46,5 @@ def create_app(env="development", static_folder="../../static"):
     @app.cli.command(name="resetdb")
     def resetdb():
         database.reset_db()
-
 
     return app

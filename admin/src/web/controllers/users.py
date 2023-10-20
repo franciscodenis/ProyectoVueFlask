@@ -21,7 +21,7 @@ def index():
     if not has_system_permission(["user_index"]):
         return abort(401)
 
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get("page", 1, type=int)
     pagination = auth.list_users(page)
     users = pagination.items
 
@@ -43,6 +43,7 @@ def create():
 def edit():
     pass
 
+
 @user_bp.route("/update/<int:user_id>", methods=["GET", "POST"])
 @login_required
 def update(user_id):
@@ -57,7 +58,7 @@ def update(user_id):
 
     if form.validate_on_submit():
         if not has_system_permission(["user_update"]):
-            flash('No tienes los permisos necesarios para editar el usuario', 'danger')
+            flash("No tienes los permisos necesarios para editar el usuario", "danger")
         else:
             new_data = {
                 "first_name": form.first_name.data,
