@@ -11,7 +11,6 @@ from src.web.helpers.maintenance import maintenance_mode_guard, superadmin_durin
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 @auth_bp.get("/")
-@superadmin_during_maintenance
 def login():
     return render_template("auth/login.html")
 
