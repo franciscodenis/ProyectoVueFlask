@@ -18,6 +18,34 @@ def list_users(page):
     """
     return User.query.paginate(page=page, per_page=get_items_per_page(), error_out=False)
 
+def list_institution_users(institution_id, page):
+    """
+    Lista todos los usuarios de una institución
+    """
+    users = User.query.join(
+            user_has_roles, User.id == user_has_roles.c.user_id
+        ).filter(
+            user_has_roles.c.institution_id == institution_id
+        ).paginate(page=page, per_page=get_items_per_page(), error_out=False)
+
+    # fuerza a filtrar user.roles a sólo los de la institución
+    for user in users:
+        user.roles = user.roles.filter(user_has_roles.c.institution_id == institution_id).all()
+
+    return users
+
+def list_institution_user_roles(user_id, institution_id):
+    """
+    Lista todos los roles de un usuario para una institución
+    """
+    return Role.query.join(
+            user_has_roles, Role.id == user_has_roles.c.role_id
+        ).filter(
+            user_has_roles.c.institution_id == institution_id
+        ).filter(
+            user_has_roles.c.user_id == user_id
+        )
+
 def create_user_stub(email, first_name, last_name):
     """
     Crea un stub de usuario inactivo y envía email de activación

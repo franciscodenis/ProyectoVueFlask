@@ -30,7 +30,7 @@ class User(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    roles = db.relationship("Role", secondary=user_has_roles, lazy=True,
+    roles = db.relationship("Role", secondary=user_has_roles, lazy='dynamic',
                             backref=db.backref("users", lazy=True))
     system_roles = db.relationship("Role", secondary=user_has_system_roles, lazy=True,
                             backref=db.backref("sys_users", lazy=True))
