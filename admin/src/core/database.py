@@ -23,6 +23,9 @@ def config_db(app):
 
 
 def reset_db():
+    """
+    Resetea la base de datos.
+    """
     print("Eliminando base de datos...")
     db.drop_all()
     print("Creando base de datos...")

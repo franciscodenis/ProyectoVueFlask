@@ -2,6 +2,7 @@ from src.core.database import db
 from src.core.institutions.institution import Institution
 from src.core.bcrypt import bcrypt
 from src.core.configuration import get_items_per_page
+from src.core.configuration import Configuration
 
 def list_institutions(page):
     """
@@ -11,10 +12,24 @@ def list_institutions(page):
         page=page, per_page=get_items_per_page(), error_out=False
     )
 
+def list_institutions(page=1,per_page=0):
+    """
+    Devuelve una lista de instituciones paginada
+    """
+    if per_page==0:
+        per_page=Configuration.items_per_page()
+
+    return Institution.query.paginate(page=page, per_page=per_page, error_out=False)
+
+def institution_count():
+    """
+    devuelve  un int con el total de instituciones
+    """
+    return Institution.query.count()
 
 def create_institution(**new_data):
     """
-    Permite crear un servicio
+    Permite crear una institucion
     """
     try:
         institution = Institution(**new_data)
@@ -27,13 +42,13 @@ def create_institution(**new_data):
 
 def get_institution_by_id(institution_id):
     """
-    Permite obtener un servicio por id
+    Permite obtener una instutcion por id
     """
     return Institution.query.get(institution_id)
 
 def update_institution(institution_id, new_data):
     """
-    Permite actualizar un servicio
+    Permite actualizar una institucion
     """
     try:
         institution = Institution.query.get(institution_id)
@@ -60,7 +75,7 @@ def update_institution(institution_id, new_data):
 
 def delete_institution(institution_id):
     """
-    Permite eliminar un servicio
+    Permite eliminar una institucion
     """
     try:
         institution = Institution.query.get(institution_id)

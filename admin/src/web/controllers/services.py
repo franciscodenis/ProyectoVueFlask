@@ -14,7 +14,7 @@ services_bp = Blueprint("servicios", __name__, url_prefix="/services")
 @maintenance_mode_guard
 def service_index():
     """
-    Permita listar los servicios de forma paginada.
+    Devuelve una lista con todos los servicios de forma paginada
     """
     if not has_permission(["service_index"]):
         return abort(401)
