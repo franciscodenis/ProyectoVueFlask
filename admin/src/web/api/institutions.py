@@ -2,6 +2,7 @@ from flask import render_template, flash, redirect, url_for
 from src.core import institutions
 from flask import Blueprint
 from src.web.schemas.institutions import institutions_schema
+from src.core.auth import list_super_admins, find_role_by_name, set_user_roles
 from flask import request
 
 
@@ -40,5 +41,11 @@ def institution_create():
     new_data = request.get_json()
     print("new data: ------>", new_data)
     result = institutions.create_institution(**new_data)
+
+    super_admins = list_super_admins()
+    super_admin_role = find_role_by_name("Super Administrador")
+    for super_admin in super_admins:
+        set_user_roles(super_admin, result.id, [super_admin_role.id])
+
     print(result)
     return ({"status": "ok"}, 201)
