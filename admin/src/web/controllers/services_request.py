@@ -20,7 +20,7 @@ def service_requests_index():
     Tambien permite filtrar por tipo de servicio, fecha de inicio, fecha de fin,
     estado y usuario.
     """
-    if not has_permission(["service_requests_index"]):
+    if not has_permission(["request_index"]):
         return abort(401)
 
     page = request.args.get("page", 1, type=int)
@@ -49,7 +49,7 @@ def service_request_show(request_id):
     """
     Permite acceder a una solicitud de servicio
     """
-    if not has_permission(["service_request_show"]):
+    if not has_permission(["request_show"]):
         return abort(401)
 
     service_request = service_requests.get_service_request(request_id)
@@ -69,7 +69,7 @@ def service_request_update(request_id):
     """
     Permite actualizar la información de una solicitud de servicio
     """
-    if not has_permission(["service_request_update"]):
+    if not has_permission(["request_update"]):
         return abort(401)
 
     service_request = service_requests.get_service_request(request_id)
@@ -108,7 +108,7 @@ def service_request_delete(request_id):
     """
     Permite eliminar una solicitud de servicio
     """
-    if not has_permission(["service_request_destroy"]):
+    if not has_permission(["request_destroy"]):
         return abort(401)
 
     request_a_eliminar = service_requests.delete_service_request(request_id)
