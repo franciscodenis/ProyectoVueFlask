@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, abort, session
 from src.core import institutions
-from src.core.auth import find_user_by_email
+from src.core.auth import find_user_by_email, list_super_admins, find_role_by_name, set_user_roles
 from flask import Blueprint
 from src.web.forms import InstitutionForm, InstitutionSwitchForm
 from src.web.helpers.auth import login_required, has_system_permission
@@ -65,6 +65,11 @@ def institution_create():
         }
 
         result = institutions.create_institution(**new_data)
+
+        super_admins = list_super_admins()
+        super_admin_role = find_role_by_name("Super Administrador")
+        for super_admin in super_admins:
+            set_user_roles(super_admin, result.id, [super_admin_role.id])
 
         if result:
             flash("La institución se ha creado correctamente.", "success")

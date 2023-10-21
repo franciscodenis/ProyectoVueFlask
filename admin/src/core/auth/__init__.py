@@ -211,6 +211,12 @@ def list_roles():
 
     return roles
 
+def find_role_by_name(role_name):
+    """
+    Obtiene un rol por su nombre
+    """
+    return Role.query.filter(Role.name == role_name).first()
+
 
 def create_role(**kwargs):
     """
@@ -378,3 +384,9 @@ def list_users_not_in_institution(institution_id):
     )
 
     return User.query.where(~subq)
+
+def list_super_admins():
+    """
+    Lista los usuarios con rol de super administrador
+    """
+    return User.query.filter(User.system_roles.any())
