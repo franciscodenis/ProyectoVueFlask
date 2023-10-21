@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, abort
+from flask import render_template, flash, redirect, url_for, abort, session
 from src.core import service_requests
 from flask import Blueprint
 from flask import request
@@ -30,8 +30,10 @@ def service_requests_index():
     state = request.args.get("state")
     user_id = request.args.get("user_id")
 
-    pagination = service_requests.list_service_request(
-        page, service_type, start_date, end_date, state, user_id
+    institution_id = session["institution"]
+
+    pagination = service_requests.list_service_request_by_institution(
+        institution_id, page, service_type, start_date, end_date, state, user_id
     )
     servicios = pagination.items
 
