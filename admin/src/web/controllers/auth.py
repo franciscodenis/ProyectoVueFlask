@@ -29,6 +29,10 @@ def authenticate():
         flash("Email o clave incorrecta.", "danger")
         return redirect(url_for("auth.login"))
 
+    if not user.active:
+        flash("Usuario deshabilitado, contacte con su administrador.", "danger")
+        return redirect(url_for("auth.login"))
+
     session["user"] = user.email
     session["username"] = user.username
 
