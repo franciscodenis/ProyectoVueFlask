@@ -14,6 +14,4 @@ def authentication():
     """
     incoming_data = request.get_json()
     user_authentication = user_schema.load(incoming_data)
-    return {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...."
-        },200
+    return {"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...."}, 200

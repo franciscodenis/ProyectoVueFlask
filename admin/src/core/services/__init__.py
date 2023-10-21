@@ -12,6 +12,7 @@ def list_services(page):
         page=page, per_page=get_items_per_page(), error_out=False
     )
 
+
 def list_services_by_institution(institution_id, page):
     """
     Permite listar los servicios
@@ -20,19 +21,28 @@ def list_services_by_institution(institution_id, page):
         page=page, per_page=get_items_per_page(), error_out=False
     )
 
-def list_service_search(search="",type="",page=1,per_page=0):
-    if per_page==0: 
-        per_page= get_items_per_page()
+
+def list_service_search(search="", type="", page=1, per_page=0):
+    if per_page == 0:
+        per_page = get_items_per_page()
 
     if type == "":
-        return Service.query.filter((Service.description.like("%"+search+"%"))|
-                                (Service.name.like("%"+search+"%"))|
-                                (Service.keywords.like("%"+search+"%"))).paginate(page=page, per_page=per_page)
-    
-    return Service.query.filter((Service.description.like("%"+search+"%"))|
-                                (Service.name.like("%"+search+"%"))|
-                                (Service.keywords.like("%"+search+"%"))).filter(
-                                    (Service.service_type == type)).paginate(page=page, per_page=per_page)
+        return Service.query.filter(
+            (Service.description.like("%" + search + "%"))
+            | (Service.name.like("%" + search + "%"))
+            | (Service.keywords.like("%" + search + "%"))
+        ).paginate(page=page, per_page=per_page)
+
+    return (
+        Service.query.filter(
+            (Service.description.like("%" + search + "%"))
+            | (Service.name.like("%" + search + "%"))
+            | (Service.keywords.like("%" + search + "%"))
+        )
+        .filter((Service.service_type == type))
+        .paginate(page=page, per_page=per_page)
+    )
+
 
 def services_count():
     return Service.query.count()

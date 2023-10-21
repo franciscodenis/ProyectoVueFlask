@@ -1,6 +1,11 @@
 from flask import render_template, flash, redirect, url_for, abort, session
 from src.core import institutions
-from src.core.auth import find_user_by_email, list_super_admins, find_role_by_name, set_user_roles
+from src.core.auth import (
+    find_user_by_email,
+    list_super_admins,
+    find_role_by_name,
+    set_user_roles,
+)
 from flask import Blueprint
 from src.web.forms import InstitutionForm, InstitutionSwitchForm
 from src.web.helpers.auth import login_required, has_system_permission
@@ -27,8 +32,9 @@ def institution_index():
     pagination = institutions.list_institutions(page)
     instituciones = pagination.items
 
-
-    return render_template("instituciones/index.html",instituciones=instituciones, pagination=pagination)
+    return render_template(
+        "instituciones/index.html", instituciones=instituciones, pagination=pagination
+    )
 
 
 def institution_show():

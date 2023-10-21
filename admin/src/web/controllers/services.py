@@ -114,7 +114,7 @@ def service_create():
             "keywords": form.keywords.data,
             "service_type": form.service_type.data,
             "enabled": form.enabled.data,
-            "institution_id": institution_id
+            "institution_id": institution_id,
         }
 
         result = services.create_service(**new_data)

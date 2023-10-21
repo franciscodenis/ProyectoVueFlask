@@ -35,14 +35,23 @@ def list_service_request(
 
     return pagination
 
+
 def list_service_request_by_institution(
-    institution_id, page, service_type=None, start_date=None, end_date=None, state=None, user_id=None
+    institution_id,
+    page,
+    service_type=None,
+    start_date=None,
+    end_date=None,
+    state=None,
+    user_id=None,
 ):
     """
     Permite listar las solicitudes de servicio de forma paginada y filtrada
     """
     # Realiza la consulta de acuerdo a los parámetros de filtro
-    query = ServiceRequest.query.filter(ServiceRequest.service.has(Service.institution_id == institution_id))
+    query = ServiceRequest.query.filter(
+        ServiceRequest.service.has(Service.institution_id == institution_id)
+    )
 
     if service_type:
         query = query.filter(ServiceRequest.service.has(ServiceType=service_type))

@@ -2,7 +2,10 @@ from flask import render_template, flash, redirect, url_for
 from src.core import institutions
 from flask import Blueprint
 from src.web.schemas.institutions import institutions_schema
-from src.web.schemas.institutions import create_institutions_schema,create_institution_schema
+from src.web.schemas.institutions import (
+    create_institutions_schema,
+    create_institution_schema,
+)
 from src.core.auth import list_super_admins, find_role_by_name, set_user_roles
 from flask import request
 
@@ -20,19 +23,19 @@ def institution_index():
 
     page = 1
     per_page = 10
-    if request.args.get('page'):
-        page = int(request.args.get('page'))
-    if request.args.get('per_page'):
-        per_page = int(request.args.get('per_page'))
+    if request.args.get("page"):
+        page = int(request.args.get("page"))
+    if request.args.get("per_page"):
+        per_page = int(request.args.get("per_page"))
 
-    list_inst = institutions.list_institutions(page,per_page)
+    list_inst = institutions.list_institutions(page, per_page)
     data = institutions_schema.dump(list_inst)
     body_response = {}
     body_response["data"] = data
     body_response["page"] = page
     body_response["per_page"] = per_page
     body_response["total"] = institutions.institution_count()
-    return body_response,200
+    return body_response, 200
 
 
 @api_instituciones_bp.route("/create", methods=["GET", "POST"])

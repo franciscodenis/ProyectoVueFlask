@@ -20,6 +20,7 @@ class InstitutionSchema(Schema):
 institution_schema = InstitutionSchema()
 institutions_schema = InstitutionSchema(many=True)
 
+
 class CreateInstitutionSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
@@ -31,6 +32,7 @@ class CreateInstitutionSchema(Schema):
     opening_hours = fields.Str()
     contact = fields.Str()
     has_authorization = fields.Bool()
+
 
 create_institution_schema = CreateInstitutionSchema()
 create_institutions_schema = CreateInstitutionSchema(many=True)

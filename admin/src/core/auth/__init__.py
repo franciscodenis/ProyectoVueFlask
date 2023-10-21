@@ -211,6 +211,7 @@ def list_roles():
 
     return roles
 
+
 def find_role_by_name(role_name):
     """
     Obtiene un rol por su nombre
@@ -384,6 +385,7 @@ def list_users_not_in_institution(institution_id):
     )
 
     return User.query.where(~subq)
+
 
 def list_super_admins():
     """
