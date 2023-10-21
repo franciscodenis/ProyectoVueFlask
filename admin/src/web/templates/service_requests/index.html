@@ -22,12 +22,12 @@ Lista de Solicitudes de Servicio
     <tbody>
         {% for solicitud in pagination.items %}
         <tr>
-            <td>{{ solicitud.title }}</td>
+            <td><a href="{{ url_for('service_requests.service_request_show', request_id=solicitud.id) }}">{{ solicitud.title }}</a></td>
             <td>{{ solicitud.description }}</td>
             <td>{{ solicitud.service.name }}</td>
             <td>{{ solicitud.status.value }}</td>
             <td>{{ solicitud.notes }}</td>
-            <td><a href="{{ url_for('users.show', user_id=solicitud.user.id) }}">{{ solicitud.user.username }}</a></td>
+            <td>{{ solicitud.user.username }}</td>
             <td>
                 <a href="{{ url_for('service_requests.service_request_update', request_id=solicitud.id) }}">Editar</a>
             </td>
