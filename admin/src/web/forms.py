@@ -101,5 +101,6 @@ class ServiceRequestForm(FlaskForm):
         ],
         validators=[DataRequired()],
     )
+    observation = StringField("Observación")
     notes = StringField("Notas")
     submit = SubmitField("Crear Solicitud")

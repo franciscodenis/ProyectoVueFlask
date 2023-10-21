@@ -13,7 +13,7 @@ Lista de Solicitudes de Servicio
             <th scope="col">Descripción</th>
             <th scope="col">Servicio</th>
             <th scope="col">Estado</th>
-            <th scope="col">Notas</th>
+            <th scope="col">Comentario</th>
             <th scope="col">Usuario</th>
             <th scope="col">Editar</th>
             <th scope="col">Eliminar</th>
@@ -22,12 +22,12 @@ Lista de Solicitudes de Servicio
     <tbody>
         {% for solicitud in pagination.items %}
         <tr>
-            <td><a href="{{ url_for('service_requests.service_request_show', request_id=solicitud.id) }}">{{ solicitud.title }}</a></td>
+            <td>{{ solicitud.title }}</td>
             <td>{{ solicitud.description }}</td>
             <td>{{ solicitud.service.name }}</td>
             <td>{{ solicitud.status.value }}</td>
             <td>{{ solicitud.notes }}</td>
-            <td>{{ solicitud.user.username }}</td>
+            <td><a href="{{ url_for('users.show', user_id=solicitud.user.id) }}">{{ solicitud.user.username }}</a></td>
             <td>
                 <a href="{{ url_for('service_requests.service_request_update', request_id=solicitud.id) }}">Editar</a>
             </td>

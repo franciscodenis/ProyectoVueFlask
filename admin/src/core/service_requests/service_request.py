@@ -23,6 +23,7 @@ class ServiceRequest(db.Model):
     status = db.Column(
         db.Enum(ServiceRequestStatus), default=ServiceRequestStatus.IN_PROCESS
     )
+    observation = db.Column(db.String(255))
     notes = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(

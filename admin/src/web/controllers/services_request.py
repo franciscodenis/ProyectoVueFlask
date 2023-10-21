@@ -81,7 +81,8 @@ def service_request_update(request_id):
             "title": form.title.data,
             "description": form.description.data,
             "status": form.status.data,
-            "notes": form.notes.data,
+            "observation": form.observation.data,
+            'notes': form.notes.data
         }
 
         result = service_requests.update_service_request(request_id, new_data)
@@ -95,6 +96,8 @@ def service_request_update(request_id):
             flash("Hubo un error al actualizar la solicitud de servicio.", "danger")
     else:
         print(form.errors)
+
+    form.status.data = service_request.status.value
 
     return render_template(
         "service_requests/update.html", form=form, service_request=service_request
