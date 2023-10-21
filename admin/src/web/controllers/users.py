@@ -8,6 +8,7 @@ from src.core import auth
 from src.web.helpers.auth import login_required
 from src.web.helpers.auth import has_permission
 from src.web.helpers.auth import has_system_permission
+from src.web.helpers.maintenance import maintenance_mode_guard
 from src.web.forms import UserForm
 from flask import request
 
@@ -16,8 +17,11 @@ user_bp = Blueprint("users", __name__, url_prefix="/usuarios")
 
 @user_bp.get("/")
 @login_required
+@maintenance_mode_guard
 def index():
-    # if not has_permission(["user_index"]):
+    """
+    Permite listar los usuarios de forma paginada.
+    """
     if not has_system_permission(["user_index"]):
         return abort(401)
 
@@ -28,24 +32,9 @@ def index():
     return render_template("users/index.html", users=users, pagination=pagination)
 
 
-def show():
-    pass
-
-
-def new():
-    pass
-
-
-def create():
-    pass
-
-
-def edit():
-    pass
-
-
 @user_bp.route("/update/<int:user_id>", methods=["GET", "POST"])
 @login_required
+@maintenance_mode_guard
 def update(user_id):
     """
     Permite actualizar un usuario
@@ -84,6 +73,7 @@ def update(user_id):
 
 @user_bp.get("/destroy/<int:user_id>")
 @login_required
+@maintenance_mode_guard
 def delete(user_id):
     """
     Permite eliminar un usuario por id
