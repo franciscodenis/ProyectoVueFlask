@@ -35,7 +35,7 @@ def list_service_request(
 
     return pagination
 
-def list_service_request_by_institution_id(
+def list_service_request_by_institution(
     institution_id, page, service_type=None, start_date=None, end_date=None, state=None, user_id=None
 ):
     """

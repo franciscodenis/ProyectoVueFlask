@@ -32,7 +32,7 @@ def service_requests_index():
 
     institution_id = session["institution"]
 
-    pagination = service_requests.list_service_request_by_institution_id(
+    pagination = service_requests.list_service_request_by_institution(
         institution_id, page, service_type, start_date, end_date, state, user_id
     )
     servicios = pagination.items
