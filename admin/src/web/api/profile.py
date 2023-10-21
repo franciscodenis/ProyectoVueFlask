@@ -8,7 +8,6 @@ from flask import request
 api_usuarios_bp = Blueprint("users_api", __name__, url_prefix="/api/consultas_usuarios")
 
 
-
 @api_usuarios_bp.get("/")
 def user_by_id():
     """
@@ -16,4 +15,4 @@ def user_by_id():
     """
     user_by_id = auth.get_user_by_id(1)
     data = user_schema.dump(user_by_id)
-    return data,200
+    return data, 200

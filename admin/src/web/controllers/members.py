@@ -1,17 +1,29 @@
-from flask import abort, Blueprint, flash, redirect, render_template, request, session, url_for
+from flask import (
+    abort,
+    Blueprint,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from src.web.helpers.auth import has_permission, login_required
 from src.core import auth
 from src.web.forms import MemberForm, MemberAddForm
+from src.web.helpers.maintenance import maintenance_mode_guard
 
 members_bp = Blueprint("members", __name__, url_prefix="/members")
 
+
 @members_bp.get("/")
 @login_required
+@maintenance_mode_guard
 def member_index():
     if not has_permission(["member_index"]):
         return abort(401)
 
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get("page", 1, type=int)
     institution_id = session["institution"]
 
     pagination = auth.list_institution_users(institution_id, page)
@@ -22,8 +34,10 @@ def member_index():
 
     return render_template("members/index.html", members=members, pagination=pagination)
 
+
 @members_bp.route("/add", methods=["GET", "POST"])
 @login_required
+@maintenance_mode_guard
 def member_create():
     if not has_permission(["member_create"]):
         return abort(401)
@@ -32,21 +46,18 @@ def member_create():
     users = []
     users_not_in_institution = auth.list_users_not_in_institution(institution_id).all()
     if len(users_not_in_institution) == 0:
-        flash("No hay usuarios disponibles para agregar como miembros a la institución", "warning")
+        flash(
+            "No hay usuarios disponibles para agregar como miembros a la institución",
+            "warning",
+        )
     for user in users_not_in_institution:
-        users.append((
-            user.id,
-            user.email
-        ))
+        users.append((user.id, user.email))
 
     roles = []
     roles_disponibles = auth.list_roles()
     for role in roles_disponibles:
         if role.name != "Super Administrador":
-            roles.append((
-                role.id,
-                role.name
-            ))
+            roles.append((role.id, role.name))
 
     form = MemberAddForm()
     form.email.choices = users
@@ -63,6 +74,7 @@ def member_create():
 
 @members_bp.route("/update/<int:user_id>", methods=["GET", "POST"])
 @login_required
+@maintenance_mode_guard
 def member_update(user_id):
     """
     Permite cambiar el rol de un usuario en la institución
@@ -77,10 +89,7 @@ def member_update(user_id):
     roles = []
     for rol in roles_disponibles:
         if rol.name != "Super Administrador":
-            roles.append((
-                rol.id,
-                rol.name
-            ))
+            roles.append((rol.id, rol.name))
     form = MemberForm(obj=usuario_actual)
     form.role.choices = roles
 
@@ -101,6 +110,7 @@ def member_update(user_id):
 
 @members_bp.get("/remove/<int:user_id>")
 @login_required
+@maintenance_mode_guard
 def member_remove(user_id):
     """
     Permite remover un miembro de la institución

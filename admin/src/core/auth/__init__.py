@@ -12,11 +12,15 @@ from src.core.email import mail
 from flask_mail import Message
 from src.core.configuration import get_items_per_page
 
+
 def list_users(page):
     """
     Lista todos los usuarios
     """
-    return User.query.paginate(page=page, per_page=get_items_per_page(), error_out=False)
+    return User.query.paginate(
+        page=page, per_page=get_items_per_page(), error_out=False
+    )
+
 
 def create_user_stub(email, first_name, last_name):
     """
@@ -27,29 +31,27 @@ def create_user_stub(email, first_name, last_name):
     if user:
         return None
 
-    user = User(
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            active=False
-        )
+    user = User(email=email, first_name=first_name, last_name=last_name, active=False)
     db.session.add(user)
     db.session.commit()
 
     key = bcrypt.generate_password_hash(email.encode("utf-8"))
     decoded_key = key.decode("utf-8")
 
-    base_url = environ.get("APP_BASE_URL", "https://admin-grupo32.proyecto2023.linti.unlp.edu.ar")
+    base_url = environ.get(
+        "APP_BASE_URL", "https://admin-grupo32.proyecto2023.linti.unlp.edu.ar"
+    )
     link = f"{base_url}/auth/validate?email={email}&key={decoded_key}"
 
     msg = Message(
         subject="Activar usuario CIDEPINT",
         recipients=[email],
-        body=f"La dirección {email} ha sido utilizada recientemente para registrar un usuario en CIDEPINT Admin. Para activarlo usa el siguiente link en tu navegador: {link}"
-        )
+        body=f"La dirección {email} ha sido utilizada recientemente para registrar un usuario en CIDEPINT Admin. Para activarlo usa el siguiente link en tu navegador: {link}",
+    )
     mail.send(msg)
 
     return user
+
 
 def create_user(**kwargs):
     """
@@ -63,17 +65,20 @@ def create_user(**kwargs):
 
     return user
 
+
 def find_user_by_email(email):
     """
     Obtiene un usuario por email
     """
     return User.query.filter_by(email=email).first()
 
+
 def get_user_by_id(user_id):
     """
     Obtiene un usuario por id
     """
     return User.query.get(user_id)
+
 
 def check_user(email, password):
     """
@@ -86,6 +91,7 @@ def check_user(email, password):
     else:
         return None
 
+
 def validate_email(email, key):
     """
     Valida email contra la key de activación
@@ -96,6 +102,7 @@ def validate_email(email, key):
             return True
 
     return False
+
 
 def activate_user(email, username, password):
     """
@@ -123,6 +130,7 @@ def list_permissions():
 
     return permissions
 
+
 def create_permission(**kwargs):
     """
     Crea un nuevo permiso
@@ -134,56 +142,66 @@ def create_permission(**kwargs):
     print(f"Permission: {permission.name} id: {permission.id}")
     return permission
 
+
 def list_permissions_by_user_id(user_id):
     """
     Obtiene una lista de nombres de permisos para un usuario por id
     """
-    return db.session.execute(
-        db.select(Permission.name.distinct())
-        .join_from(Permission, Permission.roles)
-        .filter(
-            Role.id.in_(
-                db.select(Role.id)
-                .join(User, Role.users)
-                .filter(User.id == user_id)
+    return (
+        db.session.execute(
+            db.select(Permission.name.distinct())
+            .join_from(Permission, Permission.roles)
+            .filter(
+                Role.id.in_(
+                    db.select(Role.id).join(User, Role.users).filter(User.id == user_id)
                 )
             )
-        ).scalars().all()
+        )
+        .scalars()
+        .all()
+    )
+
 
 def list_system_permissions_by_user_id(user_id):
     """
     Obtiene una lista de nombres de permisos de sistema para un usuario por id
     """
-    return db.session.execute(
-        db.select(Permission.name.distinct())
-        .join_from(Permission, Permission.roles)
-        .filter(
-            Role.id.in_(
-                db.select(Role.id)
-                .join(User, Role.sys_users)
-                .filter(User.id == user_id)
+    return (
+        db.session.execute(
+            db.select(Permission.name.distinct())
+            .join_from(Permission, Permission.roles)
+            .filter(
+                Role.id.in_(
+                    db.select(Role.id)
+                    .join(User, Role.sys_users)
+                    .filter(User.id == user_id)
                 )
             )
-        ).scalars().all()
+        )
+        .scalars()
+        .all()
+    )
+
 
 def list_permissions_by_user_id_and_institution_id(user_id, institution_id):
     """
     Obtiene una lista de nombres de permisos por ids de usuario e institución
     """
-    return db.session.execute(
-        db.select(Permission.name)
-        .join_from(Permission, Permission.roles)
-        .filter(
-            Role.id.in_(
-                db.select(Role.id)
-                .join(User, Role.users)
-                .filter(User.id == user_id)
+    return (
+        db.session.execute(
+            db.select(Permission.name)
+            .join_from(Permission, Permission.roles)
+            .filter(
+                Role.id.in_(
+                    db.select(Role.id).join(User, Role.users).filter(User.id == user_id)
                 )
             )
-        .filter(
-            Institution.id == institution_id
+            .filter(Institution.id == institution_id)
         )
-        ).scalars().all()
+        .scalars()
+        .all()
+    )
+
 
 def list_roles():
     """
@@ -192,6 +210,14 @@ def list_roles():
     roles = Role.query.all()
 
     return roles
+
+
+def find_role_by_name(role_name):
+    """
+    Obtiene un rol por su nombre
+    """
+    return Role.query.filter(Role.name == role_name).first()
+
 
 def create_role(**kwargs):
     """
@@ -203,16 +229,22 @@ def create_role(**kwargs):
 
     return role
 
+
 def set_role_permissions(role, permissions):
     """
     Asigna permisos a un rol
     """
     role_id = role.id
     for permission in permissions:
-        print(f"Role [{role.id} : {role.name}] - Permission [{permission.id} : {permission.name}]")
-        statement = role_has_permissions.insert().values(role_id=role_id, permission_id=permission.id)
+        print(
+            f"Role [{role.id} : {role.name}] - Permission [{permission.id} : {permission.name}]"
+        )
+        statement = role_has_permissions.insert().values(
+            role_id=role_id, permission_id=permission.id
+        )
         db.session.execute(statement)
     db.session.commit()
+
 
 def set_user_roles(user, institution_id, role_ids):
     """
@@ -220,9 +252,12 @@ def set_user_roles(user, institution_id, role_ids):
     """
     user_id = user.id
     for role_id in role_ids:
-        statement = user_has_roles.insert().values(user_id=user_id, institution_id=institution_id, role_id=role_id)
+        statement = user_has_roles.insert().values(
+            user_id=user_id, institution_id=institution_id, role_id=role_id
+        )
         db.session.execute(statement)
     db.session.commit()
+
 
 def replace_user_roles(user, institution_id, role_ids):
     """
@@ -247,15 +282,19 @@ def replace_user_roles(user, institution_id, role_ids):
     #     db.session.execute(statement)
     # db.session.commit()
 
+
 def set_user_system_roles(user, role_ids):
     """
     Asigna roles de sistema a un usuario
     """
     user_id = user.id
     for role_id in role_ids:
-        statement = user_has_system_roles.insert().values(user_id=user_id, role_id=role_id)
+        statement = user_has_system_roles.insert().values(
+            user_id=user_id, role_id=role_id
+        )
         db.session.execute(statement)
     db.session.commit()
+
 
 def update_user(user_id, new_data):
     """
@@ -295,42 +334,61 @@ def list_institution_users(institution_id, page):
     """
     Lista todos los usuarios de una institución
     """
-    users = User.query.join(
-            user_has_roles, User.id == user_has_roles.c.user_id
-        ).filter(
-            user_has_roles.c.institution_id == institution_id
-        ).paginate(page=page, per_page=get_items_per_page(), error_out=False)
+    users = (
+        User.query.join(user_has_roles, User.id == user_has_roles.c.user_id)
+        .filter(user_has_roles.c.institution_id == institution_id)
+        .paginate(page=page, per_page=get_items_per_page(), error_out=False)
+    )
 
     # fuerza a filtrar user.roles a sólo los de la institución
     for user in users:
-        user.roles = user.roles.filter(user_has_roles.c.institution_id == institution_id).all()
+        user.roles = user.roles.filter(
+            user_has_roles.c.institution_id == institution_id
+        ).all()
 
     return users
+
 
 def list_institution_user_roles(user_id, institution_id):
     """
     Lista todos los roles de un usuario para una institución
     """
-    return Role.query.join(
-            user_has_roles, Role.id == user_has_roles.c.role_id
-        ).filter(
-            user_has_roles.c.institution_id == institution_id
-        ).filter(
-            user_has_roles.c.user_id == user_id
-        )
+    return (
+        Role.query.join(user_has_roles, Role.id == user_has_roles.c.role_id)
+        .filter(user_has_roles.c.institution_id == institution_id)
+        .filter(user_has_roles.c.user_id == user_id)
+    )
+
 
 def remove_member(user_id, institution_id):
     """
     Remueve a un miembro de una institución
     """
-    statement = user_has_roles.delete().where(user_has_roles.c.user_id == user_id).where(user_has_roles.c.institution_id == institution_id)
+    statement = (
+        user_has_roles.delete()
+        .where(user_has_roles.c.user_id == user_id)
+        .where(user_has_roles.c.institution_id == institution_id)
+    )
     db.session.execute(statement)
     db.session.commit()
+
 
 def list_users_not_in_institution(institution_id):
     """
     Lista los usuarios que no están en la institución
     """
-    subq = db.select(user_has_roles.c.role_id).where(user_has_roles.c.institution_id == institution_id).where(user_has_roles.c.user_id == User.id).exists()
+    subq = (
+        db.select(user_has_roles.c.role_id)
+        .where(user_has_roles.c.institution_id == institution_id)
+        .where(user_has_roles.c.user_id == User.id)
+        .exists()
+    )
 
     return User.query.where(~subq)
+
+
+def list_super_admins():
+    """
+    Lista los usuarios con rol de super administrador
+    """
+    return User.query.filter(User.system_roles.any())

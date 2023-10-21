@@ -4,6 +4,7 @@ from src.core import institutions
 from src.core import configuration
 from src.core import service_requests
 
+
 def run():
     # Institutions
     institucion1 = institutions.create_institution(
@@ -31,107 +32,45 @@ def run():
 
     # Permissions
     all_permissions = {
-        "user_index": auth.create_permission(
-            name = "user_index"
-        ),
-        "user_create": auth.create_permission(
-            name = "user_create"
-        ),
-        "user_destroy": auth.create_permission(
-            name = "user_destroy"
-        ),
-        "user_update": auth.create_permission(
-            name = "user_update"
-        ),
-        "user_show": auth.create_permission(
-            name = "user_show"
-        ),
-        "institution_index": auth.create_permission(
-            name = "institution_index"
-        ),
-        "institution_create": auth.create_permission(
-            name = "institution_create"
-        ),
-        "institution_destroy": auth.create_permission(
-            name = "institution_destroy"
-        ),
-        "institution_update": auth.create_permission(
-            name = "institution_update"
-        ),
-        "institution_show": auth.create_permission(
-            name = "institution_show"
-        ),
-        "member_index": auth.create_permission(
-            name = "member_index"
-        ),
-        "member_create": auth.create_permission(
-            name = "member_create"
-        ),
-        "member_destroy": auth.create_permission(
-            name = "member_destroy"
-        ),
-        "member_update": auth.create_permission(
-            name = "member_update"
-        ),
+        "user_index": auth.create_permission(name="user_index"),
+        "user_create": auth.create_permission(name="user_create"),
+        "user_destroy": auth.create_permission(name="user_destroy"),
+        "user_update": auth.create_permission(name="user_update"),
+        "user_show": auth.create_permission(name="user_show"),
+        "institution_index": auth.create_permission(name="institution_index"),
+        "institution_create": auth.create_permission(name="institution_create"),
+        "institution_destroy": auth.create_permission(name="institution_destroy"),
+        "institution_update": auth.create_permission(name="institution_update"),
+        "institution_show": auth.create_permission(name="institution_show"),
+        "member_index": auth.create_permission(name="member_index"),
+        "member_create": auth.create_permission(name="member_create"),
+        "member_destroy": auth.create_permission(name="member_destroy"),
+        "member_update": auth.create_permission(name="member_update"),
         # TODO: Revisar si es necesaria
-        "member_show": auth.create_permission(
-            name = "member_show"
-        ),
-        "service_index": auth.create_permission(
-            name = "service_index"
-        ),
-        "service_create": auth.create_permission(
-            name = "service_create"
-        ),
-        "service_destroy": auth.create_permission(
-            name = "service_destroy"
-        ),
-        "service_update": auth.create_permission(
-            name = "service_update"
-        ),
-        "service_show": auth.create_permission(
-            name = "service_show"
-        ),
-        "request_index": auth.create_permission(
-            name = "request_index"
-        ),
+        "member_show": auth.create_permission(name="member_show"),
+        "service_index": auth.create_permission(name="service_index"),
+        "service_create": auth.create_permission(name="service_create"),
+        "service_destroy": auth.create_permission(name="service_destroy"),
+        "service_update": auth.create_permission(name="service_update"),
+        "service_show": auth.create_permission(name="service_show"),
+        "request_index": auth.create_permission(name="request_index"),
         # TODO: Revisar si es necesaria
-        "request_create": auth.create_permission(
-            name = "request_create"
-        ),
-        "request_destroy": auth.create_permission(
-            name = "request_destroy"
-        ),
-        "request_update": auth.create_permission(
-            name = "request_update"
-        ),
-        "request_show": auth.create_permission(
-            name = "request_show"
-        ),
-        "config_show": auth.create_permission(
-            name = "config_show"
-        ),
-        "config_update": auth.create_permission(
-            name = "config_update"
-        ),
+        "request_create": auth.create_permission(name="request_create"),
+        "request_destroy": auth.create_permission(name="request_destroy"),
+        "request_update": auth.create_permission(name="request_update"),
+        "request_show": auth.create_permission(name="request_show"),
+        "config_show": auth.create_permission(name="config_show"),
+        "config_update": auth.create_permission(name="config_update"),
     }
 
     # Roles
-    super_admin_role = auth.create_role(
-        name = "Super Administrador"
-    )
+    super_admin_role = auth.create_role(name="Super Administrador")
 
-    owner_role = auth.create_role(
-        name = "Dueño"
-    )
+    owner_role = auth.create_role(name="Dueño")
 
-    admin_role = auth.create_role(
-        name = "Administrador"
-    )
+    admin_role = auth.create_role(name="Administrador")
 
-    operator_role = auth.create_role(
-        name = "Operador"
-    )
+    operator_role = auth.create_role(name="Operador")
 
     # Users
     super_admin = auth.create_user(
@@ -140,7 +79,7 @@ def run():
         password="1234",
         active=True,
         first_name="Super",
-        last_name="Admin"
+        last_name="Admin",
     )
 
     user2 = auth.create_user(
@@ -149,13 +88,11 @@ def run():
         password="1234",
         active=True,
         first_name="System",
-        last_name="User"
+        last_name="User",
     )
 
     # Role has permissions
-    super_admin_role_permissions = [
-        *all_permissions.values()
-    ]
+    super_admin_role_permissions = [*all_permissions.values()]
 
     owner_role_permissions = [
         all_permissions["member_index"],
@@ -214,7 +151,7 @@ def run():
         description="Permite consultar los servicios",
         keywords="servicios, consultas",
         service_type="ANALISIS",
-        enabled=True
+        enabled=True,
     )
 
     solicitud_servicio = service_requests.create_service_request(
@@ -222,7 +159,7 @@ def run():
         service_id=servicio.id,
         title="Solicitud de servicio",
         description="Solicitud de servicio",
-        notes="Notas de solicitud de servicio"
+        notes="Notas de solicitud de servicio",
     )
 
     config = configuration.get_or_create_config()

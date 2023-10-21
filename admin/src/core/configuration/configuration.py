@@ -1,8 +1,9 @@
 from datetime import datetime
 from src.core.database import db
 
+
 class Configuration(db.Model):
-    __tablename__ = 'configurations'
+    __tablename__ = "configurations"
     id = db.Column(db.Integer, primary_key=True, unique=True)
     items_per_page = db.Column(db.Integer, nullable=False)
     contact_info = db.Column(db.String(255))

@@ -16,14 +16,14 @@ Lista de Servicios
             <th scope="col">Palabras Clave</th>
             <th scope="col">Tipo</th>
             <th scope="col">Habilitado</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
         </tr>
     </thead>
     <tbody>
         {% for servicio in pagination.items %}
         <tr>
-            <td>{{ servicio.name }}</td>
+            <td><a href="{{ url_for('servicios.service_show', service_id=servicio.id) }}">{{ servicio.name }}</a></td>
             <td>{{ servicio.description }}</td>
             <td>{{ servicio.keywords }}</td>
             <td>{{ servicio.service_type.name }}</td>

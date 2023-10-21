@@ -12,13 +12,14 @@ def not_found_error(e):
 
     return render_template("error.html", **kwargs), 404
 
+
 def unauthorized(e):
     """
     Devuelve un mensaje de error 401
     """
     kwargs = {
         "error_name": "401 Unauthorized",
-        "error_description": "No tienes los permisos necesarios para acceder al recurso"
+        "error_description": "No tienes los permisos necesarios para acceder al recurso",
     }
 
     return render_template("error.html", **kwargs), 401
