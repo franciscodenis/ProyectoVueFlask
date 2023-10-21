@@ -113,6 +113,7 @@ def update_service_request(id, new_data):
             request.description = new_data["description"]
             request.status = new_data["status"]
             request.notes = new_data["notes"]
+            request.observation = new_data["observation"]
             db.session.add(request)
             db.session.commit()
             return request

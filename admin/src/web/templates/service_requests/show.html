@@ -10,7 +10,10 @@ Detalles de la Solicitud de Servicio
     <p><strong>Servicio:</strong> {{ service_request.service.name }}</p>
     <p><strong>Estado:</strong> {{ service_request.status.value }}</p>
     <p><strong>Notas:</strong> {{ service_request.notes }}</p>
-    <p><strong>Usuario:</strong> {{ service_request.user.username }}</p>
+    <p><strong>Observacion:</strong> {{ service_request.observation }}</p>
+    <p><strong>Usuario:
+    <a href="{{ url_for('users.show', user_id=service_request.user.id) }}">{{ service_request.user.username }}</a>
+    </strong></p>
     <p><strong>Creado en:</strong> {{ service_request.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
     <p><strong>Actualizado en:</strong> {{ service_request.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
     <a href="{{ url_for('service_requests.service_request_update', request_id=service_request.id) }}" class="btn btn-primary">Editar</a>

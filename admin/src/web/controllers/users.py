@@ -31,6 +31,22 @@ def index():
 
     return render_template("users/index.html", users=users, pagination=pagination)
 
+@user_bp.get("/<int:user_id>")
+@login_required
+@maintenance_mode_guard
+def show(user_id):
+    """
+    Permite acceder a un usuario
+    """
+    if not has_system_permission(["user_show"]):
+        return abort(401)
+
+    user = auth.get_user_by_id(user_id)
+    if not user:
+        flash("El usuario no se encontró.", "danger")
+        return redirect(url_for("users.index"))
+
+    return render_template("users/show.html", user=user)
 
 @user_bp.route("/update/<int:user_id>", methods=["GET", "POST"])
 @login_required
