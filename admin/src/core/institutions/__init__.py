@@ -2,24 +2,14 @@ from src.core.database import db
 from src.core.institutions.institution import Institution
 from src.core.bcrypt import bcrypt
 from src.core.configuration import get_items_per_page
-from src.core.configuration import Configuration
-
-
-def list_institutions(page):
-    """
-    Permite listar institutciones de forma paginada
-    """
-    return Institution.query.paginate(
-        page=page, per_page=get_items_per_page(), error_out=False
-    )
 
 
 def list_institutions(page=1, per_page=0):
     """
-    Devuelve una lista de instituciones paginada
+    Permite listar institutciones de forma paginada
     """
     if per_page == 0:
-        per_page = Configuration.items_per_page()
+        per_page = get_items_per_page()
 
     return Institution.query.paginate(page=page, per_page=per_page, error_out=False)
 
